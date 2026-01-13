@@ -1,0 +1,9 @@
+node_modules/
+.env
+dist/
+logs/
+coverage/
+*.log
+sequelize-cli.log
+.vscode/
+.idea/
