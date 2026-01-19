@@ -14,7 +14,7 @@ async function bootstrap() {
         const server = createServer(app);
 
         server.listen(PORT, () => {
-            console.log(`ERP Backend started... at PORT: ${PORT}!`)
+            console.log(`ERP Backend started... on PORT: ${PORT}!`)
         })
 
 

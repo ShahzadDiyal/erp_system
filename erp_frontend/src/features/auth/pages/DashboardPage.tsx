@@ -1,8 +1,10 @@
-import { useAppSelector } from '../../../app/hooks';
+// src/features/auth/pages/DashboardPage.tsx
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../../app/store';
 
 export default function DashboardPage() {
-  const user = useAppSelector((s) => s.auth.user);
-  const token = useAppSelector((s) => s.auth.token);
+  const user = useSelector((state: RootState) => state.auth.user);
+  // const token = useSelector((state: RootState) => state.auth.token);
 
   return (
     <div>
@@ -11,8 +13,9 @@ export default function DashboardPage() {
       {user ? (
         <div>
           <p><b>User:</b> {user.name}</p>
-          <p><b>Role:</b> {user.role}</p>
-          <p><b>Token:</b> {token}</p>
+          <p><b>Email:</b> {user.email}</p>
+          <p><b>Roles:</b> {user.roles?.join(', ') || 'None'}</p>
+          {user.isSuperAdmin && <p><b>Status:</b> Super Administrator</p>}
         </div>
       ) : (
         <p>Not logged in. Go to Login.</p>
