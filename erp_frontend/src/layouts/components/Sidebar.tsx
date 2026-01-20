@@ -8,10 +8,11 @@ import inventory from '../../assets/icons/inventory.png'
 import pos from '../../assets/icons/pos.png'
 import purchases from '../../assets/icons/purchases.png'
 import sales from '../../assets/icons/sales.png'
-import logistics from '../../assets/icons/logistics.png'
+// import logistics from '../../assets/icons/logistics.png'
 import hr from '../../assets/icons/hr.png'
 import crm from '../../assets/icons/crm.png'
 import accounting from '../../assets/icons/accounting.png'
+import reports from '../../assets/icons/accounting.png'
 import logout_icon from '../../assets/icons/logout.png'
 
 interface SidebarProps {
@@ -37,17 +38,18 @@ export default function Sidebar({ collapsed, toggleSidebar }: SidebarProps) {
   ];
 
   const operationMenus: MenuItem[] = [
-    { id: 'inventory', label: 'Inventory', icon: inventory, path: '/inventory' },
-    { id: 'pos', label: 'POS', icon: pos, path: '/pos' },
-    { id: 'purchase', label: 'Purchase', icon: purchases, path: '/purchase' },
-    { id: 'logistics', label: 'Logistics', icon: logistics, path: '/logistics' },
+    { id: 'inventory', label: 'Inventory', icon: inventory, path: '/fg' },
+    { id: 'pos', label: 'POS', icon: pos, path: '/df' },
+    { id: 'sales', label: 'Sales', icon: sales, path: '/dgh' },
+    { id: 'purchase', label: 'Purchase', icon: purchases, path: '/dfhe' },
+    // { id: 'logistics', label: 'Logistics', icon: logistics, path: '/logistics' },
   ];
 
   const financeMenus: MenuItem[] = [
-    { id: 'sales', label: 'Sales', icon: sales, path: '/sales' },
-    { id: 'accounting', label: 'Accounting', icon: accounting, path: '/accounting' },
-    { id: 'crm', label: 'CRM', icon: crm, path: '/crm' },
-    { id: 'hr', label: 'HR', icon: hr, path: '/hr' },
+    { id: 'accounting', label: 'Accounting', icon: accounting, path: '/hf' },
+    { id: 'reports', label: 'Reports', icon: reports, path: '/gder' },
+    { id: 'crm', label: 'CRM', icon: crm, path: '/dfg' },
+    { id: 'hr', label: 'HR', icon: hr, path: '/rdgf' },
   ];
 
   const handleMenuClick = (path?: string) => {
@@ -205,7 +207,7 @@ export default function Sidebar({ collapsed, toggleSidebar }: SidebarProps) {
       </div>
 
       {/* Logout Button - Fixed at bottom with margins */}
-      <div className={`absolute bottom-0 left-0 right-0 border-t border-gray-200 bg-white ${
+      <div className={`absolute bottom-0 left-0 right-0 bg-white ${
         collapsed ? 'p-3' : 'p-4'
       }`}>
         <button
