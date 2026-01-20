@@ -1,4 +1,5 @@
 // src/layouts/components/Sidebar.tsx
+import { useEffect} from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppDispatch } from '../../app/hooks';
 import { logout } from '../../features/auth/authSlice';
@@ -8,7 +9,6 @@ import inventory from '../../assets/icons/inventory.png'
 import pos from '../../assets/icons/pos.png'
 import purchases from '../../assets/icons/purchases.png'
 import sales from '../../assets/icons/sales.png'
-// import logistics from '../../assets/icons/logistics.png'
 import hr from '../../assets/icons/hr.png'
 import crm from '../../assets/icons/crm.png'
 import accounting from '../../assets/icons/accounting.png'
@@ -18,45 +18,61 @@ import logout_icon from '../../assets/icons/logout.png'
 interface SidebarProps {
   collapsed: boolean;
   toggleSidebar: () => void;
+  onMenuSelect?: (pageTitle: string) => void;
 }
 
 interface MenuItem {
   id: string;
   label: string;
-  icon: string; // This will be your uploaded image URL or path
+  icon: string;
   path?: string;
 }
 
-export default function Sidebar({ collapsed, toggleSidebar }: SidebarProps) {
+export default function Sidebar({ collapsed, toggleSidebar, onMenuSelect }: SidebarProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
   
-  // Menu items - replace icon paths with your uploaded images
   const menuItems: MenuItem[] = [
     { id: 'dashboard', label: 'Dashboard', icon: dashboard, path: '/' },
   ];
 
   const operationMenus: MenuItem[] = [
-    { id: 'inventory', label: 'Inventory', icon: inventory, path: '/fg' },
-    { id: 'pos', label: 'POS', icon: pos, path: '/df' },
-    { id: 'sales', label: 'Sales', icon: sales, path: '/dgh' },
-    { id: 'purchase', label: 'Purchase', icon: purchases, path: '/dfhe' },
-    // { id: 'logistics', label: 'Logistics', icon: logistics, path: '/logistics' },
+    { id: 'inventory', label: 'Inventory', icon: inventory, path: '/inventory' },
+    { id: 'pos', label: 'POS', icon: pos, path: '/pos' },
+    { id: 'sales', label: 'Sales', icon: sales, path: '/sales' },
+    { id: 'purchase', label: 'Purchase', icon: purchases, path: '/purchase' },
   ];
 
   const financeMenus: MenuItem[] = [
-    { id: 'accounting', label: 'Accounting', icon: accounting, path: '/hf' },
-    { id: 'reports', label: 'Reports', icon: reports, path: '/gder' },
-    { id: 'crm', label: 'CRM', icon: crm, path: '/dfg' },
-    { id: 'hr', label: 'HR', icon: hr, path: '/rdgf' },
+    { id: 'accounting', label: 'Accounting', icon: accounting, path: '/accounting' },
+    { id: 'reports', label: 'Reports', icon: reports, path: '/reports' },
+    { id: 'crm', label: 'CRM', icon: crm, path: '/crm' },
+    { id: 'hr', label: 'HR', icon: hr, path: '/hr' },
   ];
 
-  const handleMenuClick = (path?: string) => {
-    if (path) {
-      navigate(path);
+  const handleMenuClick = (menu: MenuItem) => {
+    if (onMenuSelect) {
+      onMenuSelect(menu.label);
+    }
+    if (menu.path) {
+      navigate(menu.path);
     }
   };
+
+  const findActiveMenuLabel = () => {
+    const allMenus = [...menuItems, ...operationMenus, ...financeMenus];
+    const activeMenu = allMenus.find(menu => menu.path === location.pathname);
+    return activeMenu?.label || 'Dashboard Overview';
+  };
+
+  // Initialize page title on component mount
+  useEffect(() => {
+    if (onMenuSelect) {
+      const title = findActiveMenuLabel();
+      onMenuSelect(title);
+    }
+  }, [location.pathname, onMenuSelect]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -65,45 +81,37 @@ export default function Sidebar({ collapsed, toggleSidebar }: SidebarProps) {
 
   const renderMenuSection = (title: string, menus: MenuItem[]) => (
     <div className="mb-6">
-      {/* Section Heading - No icon, just text */}
       {!collapsed && (
         <h3 className="px-2 mb-2 text-lg font-semibold text-gray-500 uppercase tracking-wider">
           {title}
         </h3>
       )}
       
-      {/* Menu Items */}
       <div className="space-y-1">
         {menus.map((menu) => {
           const isActive = location.pathname === menu.path;
           return (
             <button
               key={menu.id}
-              onClick={() => handleMenuClick(menu.path)}
+              onClick={() => handleMenuClick(menu)}
               className={`w-full flex items-center rounded-lg transition-all duration-200 ${
                 collapsed 
                   ? 'justify-center p-3' 
                   : 'px-4 py-3 space-x-3'
               } ${
                 isActive 
-                  ? 'bg-gray-900 text-blue-500' 
+                  ? 'bg-gray-200 text-blue-600' 
                   : 'text-gray-700 hover:bg-gray-100 hover:text-blue-600'
               }`}
             >
-              {/* Your uploaded icon image */}
               <div className={`flex-shrink-0 ${isActive ? 'text-blue-500' : 'text-gray-500'}`}>
-                {menu.icon.startsWith('/') ? (
-                  <img 
-                    src={menu.icon} 
-                    alt={menu.label}
-                    className="w-5 h-5 object-contain"
-                  />
-                ) : (
-                  <span className="text-lg">{menu.icon}</span>
-                )}
+                <img 
+                  src={menu.icon} 
+                  alt={menu.label}
+                  className="w-5 h-5 object-contain"
+                />
               </div>
               
-              {/* Menu Label (hidden when collapsed) */}
               {!collapsed && (
                 <span className="text-lg font-medium truncate">{menu.label}</span>
               )}
@@ -121,13 +129,12 @@ export default function Sidebar({ collapsed, toggleSidebar }: SidebarProps) {
       }`}
       style={{ height: '100vh' }}
     >
-      {/* Sidebar Header - Centered with margins */}
+      {/* Sidebar Header */}
       <div className={`py-3 h-18 border-b border-gray-200 ${collapsed ? 'px-3' : 'px-6'}`}>
         <div className={`flex items-center ${collapsed ? 'justify-center' : 'justify-between'}`}>
           {!collapsed ? (
             <>
               <div className="flex items-center space-x-3">
-                {/* Your ERP logo/image */}
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center">
                   <img src={erp_logo} alt="" />
                 </div>
@@ -160,16 +167,15 @@ export default function Sidebar({ collapsed, toggleSidebar }: SidebarProps) {
         </div>
       </div>
 
-      {/* Menu Items - With margins */}
+      {/* Menu Items */}
       <div className={`py-4 ${collapsed ? 'px-1' : 'px-4'}`}>
-        {/* Dashboard Menu */}
         <div className="mb-6">
           {menuItems.map((menu) => {
             const isActive = location.pathname === menu.path;
             return (
               <button
                 key={menu.id}
-                onClick={() => handleMenuClick(menu.path)}
+                onClick={() => handleMenuClick(menu)}
                 className={`w-full flex items-center rounded-lg transition-all duration-200 ${
                   collapsed 
                     ? 'justify-center p-3' 
@@ -181,15 +187,11 @@ export default function Sidebar({ collapsed, toggleSidebar }: SidebarProps) {
                 }`}
               >
                 <div className={`flex-shrink-0 ${isActive ? 'text-blue-500' : 'text-gray-500'}`}>
-                  {menu.icon.startsWith('/') ? (
-                    <img 
-                      src={menu.icon} 
-                      alt={menu.label}
-                      className="w-6 h-6 object-contain"
-                    />
-                  ) : (
-                    <span className="text-lg">{menu.icon}</span>
-                  )}
+                  <img 
+                    src={menu.icon} 
+                    alt={menu.label}
+                    className="w-6 h-6 object-contain"
+                  />
                 </div>
                 {!collapsed && (
                   <span className="text-lg font-medium">{menu.label}</span>
@@ -199,14 +201,11 @@ export default function Sidebar({ collapsed, toggleSidebar }: SidebarProps) {
           })}
         </div>
 
-        {/* Operations Section */}
         {renderMenuSection('Operations', operationMenus)}
-        
-        {/* Finance & HR Section */}
         {renderMenuSection('Finance & HR', financeMenus)}
-      </div>
+      </div> 
 
-      {/* Logout Button - Fixed at bottom with margins */}
+      {/* Logout Button */}
       <div className={`absolute bottom-0 left-0 right-0 bg-white ${
         collapsed ? 'p-3' : 'p-4'
       }`}>
@@ -218,7 +217,7 @@ export default function Sidebar({ collapsed, toggleSidebar }: SidebarProps) {
               : 'px-4 py-3 space-x-3'
           }`}
         >
-          <img src={logout_icon} alt="" color='white' />
+          <img src={logout_icon} alt="" className="w-5 h-5" />
           {!collapsed && <span className="text-sm font-medium">Logout</span>}
         </button>
       </div>

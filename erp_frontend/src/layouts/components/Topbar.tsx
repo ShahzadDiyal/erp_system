@@ -4,12 +4,14 @@ import { useAppSelector } from '../../app/hooks';
 import { ChevronDown } from '../../components/shared/icons';
 import type { RootState } from '../../app/store';
 import add_icon from '../../assets/icons/staff_add.png'
+
 interface TopbarProps {
     sidebarCollapsed: boolean;
     toggleSidebar: () => void;
+    pageTitle?: string;
 }
 
-export default function Topbar({ }: TopbarProps) {
+export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps) {
     const { user } = useAppSelector((state: RootState) => state.auth);
     const [showBranchDropdown, setShowBranchDropdown] = useState(false);
     const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -30,9 +32,9 @@ export default function Topbar({ }: TopbarProps) {
             <div className="flex items-center justify-between h-full px-6">
                 {/* Left Section */}
                 <div className="flex items-center space-x-6">
-                    {/* Title */}
+                    {/* Page Title - Dynamically changes based on selected menu */}
                     <h1 className="text-xl font-bold text-gray-900 hidden md:block">
-                        Dashboard Overview
+                        {pageTitle}
                     </h1>
 
                     {/* Branch Dropdown */}
@@ -81,16 +83,14 @@ export default function Topbar({ }: TopbarProps) {
                 {/* Right Section */}
                 <div className="flex items-center space-x-3">
                     {/* Add Staff Button */}
-                  {user?.isSuperAdmin && (
- <button className="hidden md:flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                         <img src={add_icon} alt="" />
+                    {user?.isSuperAdmin && (
+                        <button className="hidden md:flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            <img src={add_icon} alt="" />
                             <span className="text-sm font-medium">Add Staff</span>
                         </button>
-                  )}
-                       
-                   
+                    )}
 
-                    {/* Notifications - With border */}
+                    {/* Notifications */}
                     <div className="relative">
                         <button
                             onClick={() => setShowNotifications(!showNotifications)}
@@ -100,9 +100,6 @@ export default function Topbar({ }: TopbarProps) {
                             <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                             </svg>
-                            {/* <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
-                3
-              </span> */}
                         </button>
 
                         {showNotifications && (
@@ -126,7 +123,7 @@ export default function Topbar({ }: TopbarProps) {
                         )}
                     </div>
 
-                    {/* Settings - With border */}
+                    {/* Settings */}
                     <button
                         onClick={() => setShowProfileMenu(!showProfileMenu)}
                         className="p-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
@@ -149,10 +146,6 @@ export default function Topbar({ }: TopbarProps) {
                                     {user?.name?.charAt(0) || 'U'}
                                 </span>
                             </div>
-                            {/* <div className="hidden md:block text-left">
-                <p className="text-sm font-medium text-gray-900">{user?.name || 'User'}</p>
-                <p className="text-xs text-gray-500">{user?.roles?.join(', ') || 'User'}</p>
-              </div> */}
                             <ChevronDown className="hidden md:block w-4 h-4 text-gray-500" />
                         </button>
 
