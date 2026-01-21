@@ -5,11 +5,8 @@ import DashboardPage from '../features/auth/pages/DashboardPage';
 
 // Import inventory pages
 import InventoryDashboardPage from '../features/inventory/pages/InventoryDashboardPage';
-import ProductListPage from '../features/inventory/pages/ProductListPage';
-import ProductDetailPage from '../features/inventory/pages/ProductDetailPage';
 import CategoryPage from '../features/inventory/pages/CategoryPage';
-import SupplierPage from '../features/inventory/pages/SupplierPage';
-import StockAdjustmentPage from '../features/inventory/pages/StockAdjustmentPage';
+import InventoryReportPage from '../features/inventory/pages/InventoryReportPage';
 
 // Simple protected route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -47,29 +44,15 @@ export const router = createBrowserRouter([
             element: <InventoryDashboardPage />,
           },
           {
-            path: 'products',
-            element: <ProductListPage />,
+            path: 'reports',
+            element: <InventoryReportPage />,
           },
-          {
-            path: 'products/:id',
-            element: <ProductDetailPage />,
-          },
-          {
-            path: 'add',
-            element: <ProductDetailPage />,
-          },
+           
           {
             path: 'categories',
             element: <CategoryPage />,
           },
-          {
-            path: 'suppliers',
-            element: <SupplierPage />,
-          },
-          {
-            path: 'adjust-stock',
-            element: <StockAdjustmentPage />,
-          },
+          
         ],
       },
     ],
