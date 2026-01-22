@@ -8,6 +8,11 @@ import InventoryDashboardPage from '../features/inventory/pages/InventoryDashboa
 import CategoryPage from '../features/inventory/pages/CategoryPage';
 import InventoryReportPage from '../features/inventory/pages/InventoryReportPage';
 
+import POSTerminalPage from '../features/pos/pages/posTerminalPage';
+import POSCashBoxPage from '../features/pos/pages/cashBoxPage'
+import POSOrders from '../features/pos/pages/posOrdersPage'
+import POSShiftReports from '../features/pos/pages/shiftReportsPage'
+import OpenPOSPage from '../features/pos/pages/openPosPage'
 // Simple protected route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   // You can add your auth logic here
@@ -51,6 +56,33 @@ export const router = createBrowserRouter([
           {
             path: 'categories',
             element: <CategoryPage />,
+          },
+          
+        ],
+      },
+      {
+        path: 'pos',
+        children: [
+          {
+            index: true,
+            element: <OpenPOSPage />,
+          },
+          {
+            path: 'terminal',
+            element: <POSTerminalPage />,
+          },
+          {
+            path: 'cashbox',
+            element: <POSCashBoxPage />,
+          },
+           
+          {
+            path: 'orders',
+            element: <POSOrders />,
+          },
+          {
+            path: 'shift_reports',
+            element: <POSShiftReports />,
           },
           
         ],

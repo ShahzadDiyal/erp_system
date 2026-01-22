@@ -1,5 +1,5 @@
 // src/layouts/components/Sidebar.tsx
-import { useEffect} from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppDispatch } from '../../app/hooks';
 import { logout } from '../../features/auth/authSlice';
@@ -26,20 +26,42 @@ interface MenuItem {
   label: string;
   icon: string;
   path?: string;
+  submenu?: SubMenuItem[];
+}
+
+interface SubMenuItem {
+  id: string;
+  label: string;
+  path: string;
 }
 
 export default function Sidebar({ collapsed, toggleSidebar, onMenuSelect }: SidebarProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
+  const [isPosOpen, setIsPosOpen] = useState(false);
   
   const menuItems: MenuItem[] = [
     { id: 'dashboard', label: 'Dashboard', icon: dashboard, path: '/' },
   ];
 
+  const posSubmenus: SubMenuItem[] = [
+    { id: 'pos-terminal', label: 'Open Terminal', path: '/pos/terminal' },
+    { id: 'pos-open', label: 'Open POS', path: '/pos' },
+    { id: 'pos-orders', label: 'POS Orders', path: '/pos/orders' },
+    { id: 'pos-cashbox', label: 'Cash Box', path: '/pos/cashbox' },
+    { id: 'pos-shift-reports', label: 'Shift Reports', path: '/pos/shift_reports' },
+  ];
+
   const operationMenus: MenuItem[] = [
     { id: 'inventory', label: 'Inventory', icon: inventory, path: '/inventory' },
-    { id: 'pos', label: 'POS', icon: pos, path: '/pos' },
+    { 
+      id: 'pos', 
+      label: 'POS', 
+      icon: pos, 
+      path: '/pos',
+      submenu: posSubmenus 
+    },
     { id: 'sales', label: 'Sales', icon: sales, path: '/sales' },
     { id: 'purchase', label: 'Purchase', icon: purchases, path: '/purchase' },
   ];
@@ -51,7 +73,26 @@ export default function Sidebar({ collapsed, toggleSidebar, onMenuSelect }: Side
     { id: 'hr', label: 'HR', icon: hr, path: '/hr' },
   ];
 
+  // Check if current path is under POS section
+  const isPosPathActive = location.pathname.startsWith('/pos');
+
+  // Auto-open POS dropdown if on POS page
+  useEffect(() => {
+    if (isPosPathActive && !collapsed) {
+      setIsPosOpen(true);
+    }
+  }, [isPosPathActive, collapsed]);
+
   const handleMenuClick = (menu: MenuItem) => {
+    // If menu has submenu, toggle dropdown
+    if (menu.submenu && !collapsed) {
+      if (menu.id === 'pos') {
+        setIsPosOpen(!isPosOpen);
+      }
+      return;
+    }
+    
+    // Otherwise navigate
     if (onMenuSelect) {
       onMenuSelect(menu.label);
     }
@@ -60,7 +101,23 @@ export default function Sidebar({ collapsed, toggleSidebar, onMenuSelect }: Side
     }
   };
 
+  const handleSubmenuClick = (submenu: SubMenuItem, parentLabel: string) => {
+    if (onMenuSelect) {
+      onMenuSelect(submenu.label);
+    }
+    navigate(submenu.path);
+  };
+
   const findActiveMenuLabel = () => {
+    // Check submenus first
+    for (const menu of operationMenus) {
+      if (menu.submenu) {
+        const activeSubmenu = menu.submenu.find(sub => sub.path === location.pathname);
+        if (activeSubmenu) return activeSubmenu.label;
+      }
+    }
+    
+    // Then check main menus
     const allMenus = [...menuItems, ...operationMenus, ...financeMenus];
     const activeMenu = allMenus.find(menu => menu.path === location.pathname);
     return activeMenu?.label || 'Dashboard Overview';
@@ -90,32 +147,77 @@ export default function Sidebar({ collapsed, toggleSidebar, onMenuSelect }: Side
       <div className="space-y-1">
         {menus.map((menu) => {
           const isActive = location.pathname === menu.path;
+          const hasSubmenu = menu.submenu && menu.submenu.length > 0;
+          const isSubmenuOpen = menu.id === 'pos' && isPosOpen;
+          const isParentActive = menu.submenu?.some(sub => sub.path === location.pathname);
+          
           return (
-            <button
-              key={menu.id}
-              onClick={() => handleMenuClick(menu)}
-              className={`w-full flex items-center rounded-lg transition-all duration-200 ${
-                collapsed 
-                  ? 'justify-center p-3' 
-                  : 'px-4 py-3 space-x-3'
-              } ${
-                isActive 
-                  ? 'bg-gray-200 text-blue-600' 
-                  : 'text-gray-700 hover:bg-gray-100 hover:text-blue-600'
-              }`}
-            >
-              <div className={`flex-shrink-0 ${isActive ? 'text-blue-500' : 'text-gray-500'}`}>
-                <img 
-                  src={menu.icon} 
-                  alt={menu.label}
-                  className="w-5 h-5 object-contain"
-                />
-              </div>
-              
-              {!collapsed && (
-                <span className="text-lg font-medium truncate">{menu.label}</span>
+            <div key={menu.id}>
+              {/* Main Menu Item */}
+              <button
+                onClick={() => handleMenuClick(menu)}
+                className={`w-full flex items-center rounded-lg transition-all duration-200 cursor-pointer ${
+                  collapsed 
+                    ? 'justify-center p-3' 
+                    : 'px-4 py-3 space-x-3'
+                } ${
+                  isActive || isParentActive
+                    ? 'bg-gray-200 text-blue-600' 
+                    : 'text-gray-700 hover:bg-gray-100 hover:text-blue-600'
+                }`}
+              >
+                <div className={`flex-shrink-0 ${isActive || isParentActive ? 'text-blue-500' : 'text-gray-500'}`}>
+                  <img 
+                    src={menu.icon} 
+                    alt={menu.label}
+                    className="w-5 h-5 object-contain"
+                  />
+                </div>
+                
+                {!collapsed && (
+                  <>
+                    <span className="text-lg font-medium truncate flex-1 text-left">
+                      {menu.label}
+                    </span>
+                    
+                    {hasSubmenu && (
+                      <svg 
+                        className={`w-4 h-4 transition-transform duration-200 ${
+                          isSubmenuOpen ? 'rotate-180' : ''
+                        }`}
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    )}
+                  </>
+                )}
+              </button>
+
+              {/* Submenu Items - Only show when not collapsed */}
+              {hasSubmenu && !collapsed && isSubmenuOpen && (
+                <div className="mt-1 ml-4 space-y-1 border-l-2 border-gray-200 pl-4">
+                  {menu.submenu!.map((submenu) => {
+                    const isSubmenuActive = location.pathname === submenu.path;
+                    return (
+                      <button
+                        key={submenu.id}
+                        onClick={() => handleSubmenuClick(submenu, menu.label)}
+                        className={`w-full flex items-center rounded-lg transition-all duration-200 px-4 py-2.5 cursor-pointer ${
+                          isSubmenuActive 
+                            ? 'bg-blue-50 text-blue-600 font-medium' 
+                            : 'text-gray-600 hover:bg-gray-50 hover:text-blue-600'
+                        }`}
+                      >
+                        <span className="text-base truncate">{submenu.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
               )}
-            </button>
+            </div>
           );
         })}
       </div>

@@ -4,6 +4,7 @@ import { useAppSelector } from '../../app/hooks';
 import { ChevronDown } from '../../components/shared/icons';
 import type { RootState } from '../../app/store';
 import add_icon from '../../assets/icons/staff_add.png'
+import history_icon_2 from '../../assets/icons/history_icon_3.svg'
 
 interface TopbarProps {
     sidebarCollapsed: boolean;
@@ -39,6 +40,7 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
 
                     {/* Branch Dropdown */}
                     <div className="relative">
+                        
                         <button
                             onClick={() => setShowBranchDropdown(!showBranchDropdown)}
                             className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 transition-colors"
@@ -83,6 +85,13 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
                 {/* Right Section */}
                 <div className="flex items-center space-x-3">
                     {/* Add Staff Button */}
+                   
+                        <button className="hidden md:flex items-center space-x-2 px-4 py-2 bg-[#FF5F57] text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            <img src={history_icon_2} alt="" />
+                            <span className="text-sm font-medium">Shift Close 12:27</span>
+                        </button>
+                     
+
                     {user?.isSuperAdmin && (
                         <button className="hidden md:flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                             <img src={add_icon} alt="" />

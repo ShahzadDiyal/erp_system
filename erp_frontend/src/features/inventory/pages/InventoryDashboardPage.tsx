@@ -216,7 +216,7 @@ export default function DashboardPage() {
                                 <p className='text-xl align-center font-semibold'>Quick Actions</p>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <button 
+                                <button
                                     onClick={handleAddProductClick}
                                     className="flex items-center space-x-4 bg-white rounded-lg p-6 border-2 border-[#0088FF] hover:border-blue-700 hover:shadow-sm transition-all w-full cursor-pointer"
                                 >
@@ -228,11 +228,10 @@ export default function DashboardPage() {
                                     </div>
                                 </button>
 
-                                <button 
+                                <button
                                     onClick={handleTransferStockClick}
-                                    className={`flex items-center space-x-4 bg-white rounded-lg p-6 border-2 hover:border-blue-700 hover:shadow-sm transition-all w-full cursor-pointer ${
-                                        showBulkTransfer ? 'border-blue-700 bg-blue-50' : 'border-[#0088FF]'
-                                    }`}
+                                    className={`flex items-center space-x-4 bg-white rounded-lg p-6 border-2 hover:border-blue-700 hover:shadow-sm transition-all w-full cursor-pointer ${showBulkTransfer ? 'border-blue-700 bg-blue-50' : 'border-[#0088FF]'
+                                        }`}
                                 >
                                     <div className="w-12 h-12 rounded-lg bg-[#ECF0F4] flex items-center justify-center flex-shrink-0">
                                         <img src={transfer_stock} alt="Export Data" className="w-6 h-6" />
@@ -245,7 +244,7 @@ export default function DashboardPage() {
 
                             {/* Row 2: Two buttons */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <button 
+                                <button
                                     className="flex items-center space-x-4 bg-white rounded-lg p-6 border-2  border-[#0088FF] hover:border-blue-700 hover:shadow-sm transition-all w-full cursor-pointer"
                                 >
                                     <div className="w-12 h-12 rounded-lg bg-[#ECF0F4] flex items-center justify-center flex-shrink-0">
@@ -285,7 +284,7 @@ export default function DashboardPage() {
                                     <option>This Month</option>
                                     <option>This Year</option>
                                 </select>
-                                
+
                                 {/* Custom dropdown arrow */}
                                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                                     <img src={dropdown_arrow_icon} alt="" />
@@ -300,7 +299,7 @@ export default function DashboardPage() {
                                     <option>Tech Store</option>
                                     <option>Online Store</option>
                                 </select>
-                                
+
                                 {/* Custom dropdown arrow */}
                                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                                     <img src={dropdown_arrow_icon} alt="" />
@@ -315,7 +314,7 @@ export default function DashboardPage() {
                                     <option>Lighting</option>
                                     <option>Stationery</option>
                                 </select>
-                                
+
                                 {/* Custom dropdown arrow */}
                                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                                     <img src={dropdown_arrow_icon} alt="" />
@@ -331,7 +330,7 @@ export default function DashboardPage() {
                                     <option>Out of Stock</option>
                                     <option>Pre Order</option>
                                 </select>
-                                
+
                                 {/* Custom dropdown arrow */}
                                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                                     <img src={dropdown_arrow_icon} alt="" />
@@ -477,11 +476,10 @@ export default function DashboardPage() {
                                                 <div className="text-[14px] font-semibold text-gray-900">{product.price.toLocaleString()}</div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className={`inline-flex px-3 py-2 text-xs font-medium rounded-lg ${
-                                                    product.status === 'In Stock' ? 'bg-green-100 text-green-800' :
-                                                    product.status === 'Low Stock' ? 'bg-yellow-100 text-yellow-800' :
-                                                    'bg-red-100 text-red-800'
-                                                }`}>
+                                                <span className={`inline-flex px-3 py-2 text-xs font-medium rounded-lg ${product.status === 'In Stock' ? 'bg-green-100 text-green-800' :
+                                                        product.status === 'Low Stock' ? 'bg-yellow-100 text-yellow-800' :
+                                                            'bg-red-100 text-red-800'
+                                                    }`}>
                                                     {product.status}
                                                 </span>
                                             </td>
