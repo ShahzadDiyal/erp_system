@@ -5,6 +5,8 @@ import { ChevronDown } from '../../components/shared/icons';
 import type { RootState } from '../../app/store';
 import add_icon from '../../assets/icons/staff_add.png'
 import history_icon_2 from '../../assets/icons/history_icon_3.svg'
+import add_invoice from '../../assets/icons/add.svg'
+import { Link } from 'react-router-dom';
 
 interface TopbarProps {
     sidebarCollapsed: boolean;
@@ -86,6 +88,14 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
                 <div className="flex items-center space-x-3">
                     {/* Add Staff Button */}
                    
+                       <Link to="/sales/create_invoice">
+                         <button className="hidden md:flex items-center space-x-2 px-4 py-2 text-black border-1 border-blue-600 rounded-lg cursor-pointer transition-colors">
+                            <img src={add_invoice} alt="" />
+                            <span className="text-sm font-medium">Create New Invoice</span>
+                        </button>
+                       </Link>
+
+                        
                         <button className="hidden md:flex items-center space-x-2 px-4 py-2 bg-[#FF5F57] text-white rounded-lg hover:bg-blue-700 transition-colors">
                             <img src={history_icon_2} alt="" />
                             <span className="text-sm font-medium">Shift Close 12:27</span>

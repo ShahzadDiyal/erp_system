@@ -3,6 +3,7 @@ import authReducer from '../features/auth/authSlice';
 import posReducer from '../features/pos/posSlice';
 import { api } from '../services/api';
 import inventoryReducer from '../features/inventory/inventorySlice'; // Add this import
+import salesReducer from '../features/sales/salesSlice'; // Add this import
 
 
 export const store = configureStore({
@@ -11,6 +12,7 @@ export const store = configureStore({
         [api.reducerPath]: api.reducer,
          inventory: inventoryReducer,
           pos: posReducer,
+          sales: salesReducer,
     },
       middleware: (getDefault) => getDefault().concat(api.middleware),
 

@@ -13,6 +13,10 @@ import POSCashBoxPage from '../features/pos/pages/cashBoxPage'
 import POSOrders from '../features/pos/pages/posOrdersPage'
 import POSShiftReports from '../features/pos/pages/shiftReportsPage'
 import OpenPOSPage from '../features/pos/pages/openPosPage'
+
+import SalesDashboard from '../features/sales/pages/SalesDashboard';
+import CreateNewInvoice from '../features/sales/pages/CreateInvoice';
+import AddInvoiceProducts from '../features/sales/pages/addInvoiceProducts'
 // Simple protected route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   // You can add your auth logic here
@@ -37,6 +41,7 @@ export const router = createBrowserRouter([
         index: true,
         element: <DashboardPage />,
       },
+      
       {
         path: 'inventory',
         children: [
@@ -60,6 +65,7 @@ export const router = createBrowserRouter([
           
         ],
       },
+
       {
         path: 'pos',
         children: [
@@ -79,6 +85,28 @@ export const router = createBrowserRouter([
           {
             path: 'orders',
             element: <POSOrders />,
+          },
+          {
+            path: 'shift_reports',
+            element: <POSShiftReports />,
+          },
+          
+        ],
+      },
+      {
+        path: 'sales',
+        children: [
+          {
+            index: true,
+            element: <SalesDashboard />,
+          },
+          {
+            path: 'create_invoice',
+            element: <CreateNewInvoice />,
+          },
+          {
+            path: 'add_product',
+            element: <AddInvoiceProducts />,
           },
           {
             path: 'shift_reports',

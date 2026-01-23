@@ -14,20 +14,16 @@ import date_icon from '../../../assets/icons/date_icon.svg'
 // import { Link } from 'react-router-dom';
 
 export default function POSShiftReportPage() {
-    const [showBulkTransfer, setShowBulkTransfer] = useState(false);
+    const [showBulkTransfer] = useState(false);
     const [selectedProductIds, setSelectedProductIds] = useState<number[]>([]);
-    const [selectedProduct, setSelectedProduct] = useState<any>(null);
-    const [showProductDetails, setShowProductDetails] = useState(false);
 
-    const [selectedTerminal, setSelectedTerminal] = useState('POS-01 (Front Desk)');
     const [selectedBranch, setSelectedBranch] = useState('Army Market');
-    const [openingCash, setOpeningCash] = useState('');
 
     const handleSelectAll = () => {
         if (selectedProductIds.length === products.length) {
             setSelectedProductIds([]);
         } else {
-            setSelectedProductIds(products.map(p => p.id));
+            setSelectedProductIds(products.map(p => p.id));``
         }
     };
 
