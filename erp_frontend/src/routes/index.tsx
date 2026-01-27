@@ -14,8 +14,8 @@ import POSOrders from '../features/pos/pages/posOrdersPage'
 import POSShiftReports from '../features/pos/pages/shiftReportsPage'
 import OpenPOSPage from '../features/pos/pages/openPosPage'
 
-import SalesDashboard from '../features/sales/pages/SalesDashboard';
-import CreateNewInvoice from '../features/sales/pages/CreateInvoice';
+import SalesDashboard from '../features/sales/pages/salesDashboard';
+import CreateNewInvoice from '../features/sales/pages/createInvoice';
 import AddInvoiceProducts from '../features/sales/pages/addInvoiceProducts'
 // Simple protected route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {

@@ -1,4 +1,4 @@
-// src/features/pos/components/ProductCard.tsx
+// src/features/sales/components/Productcard.tsx
 import { useState } from 'react';
 
 interface Product {
