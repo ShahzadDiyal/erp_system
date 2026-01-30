@@ -9,11 +9,12 @@ import inventory from '../../assets/icons/inventory.png'
 import pos from '../../assets/icons/pos.png'
 import purchases from '../../assets/icons/purchases.png'
 import sales from '../../assets/icons/sales.png'
-import hr from '../../assets/icons/hr.png'
+// import hr from '../../assets/icons/hr.png'
 import crm from '../../assets/icons/crm.png'
 import accounting from '../../assets/icons/accounting.png'
 import reports from '../../assets/icons/accounting.png'
 import logout_icon from '../../assets/icons/logout.png'
+import hr_icon from '../../assets/icons/hr_icon.svg'
 
 interface SidebarProps {
   collapsed: boolean;
@@ -70,7 +71,7 @@ export default function Sidebar({ collapsed, toggleSidebar, onMenuSelect }: Side
     { id: 'accounting', label: 'Accounting', icon: accounting, path: '/accounting' },
     { id: 'reports', label: 'Reports', icon: reports, path: '/reports' },
     { id: 'crm', label: 'CRM', icon: crm, path: '/crm' },
-    { id: 'hr', label: 'HR', icon: hr, path: '/hr' },
+    { id: 'hr', label: 'HR & users', icon: hr_icon, path: '/hr' },
   ];
 
   // Check if current path is under POS section

@@ -60,22 +60,22 @@ export default function CreateInvoice() {
     return calculateSubtotal() + calculateTax() - calculateDiscount();
   };
 
-  // Function to remove product
-  const handleRemoveProduct = (productId: string) => {
-    const updatedProducts = selectedProducts.filter(p => p.id !== productId);
-    setSelectedProducts(updatedProducts);
-    localStorage.setItem('selectedProducts', JSON.stringify(updatedProducts));
-  };
+  // // Function to remove product
+  // const handleRemoveProduct = (productId: string) => {
+  //   const updatedProducts = selectedProducts.filter(p => p.id !== productId);
+  //   setSelectedProducts(updatedProducts);
+  //   localStorage.setItem('selectedProducts', JSON.stringify(updatedProducts));
+  // };
 
   // Function to update quantity
-  const handleUpdateQuantity = (productId: string, newQuantity: number) => {
-    if (newQuantity < 1) return;
-    const updatedProducts = selectedProducts.map(p => 
-      p.id === productId ? { ...p, quantity: newQuantity } : p
-    );
-    setSelectedProducts(updatedProducts);
-    localStorage.setItem('selectedProducts', JSON.stringify(updatedProducts));
-  };
+  // const handleUpdateQuantity = (productId: string, newQuantity: number) => {
+  //   if (newQuantity < 1) return;
+  //   const updatedProducts = selectedProducts.map(p => 
+  //     p.id === productId ? { ...p, quantity: newQuantity } : p
+  //   );
+  //   setSelectedProducts(updatedProducts);
+  //   localStorage.setItem('selectedProducts', JSON.stringify(updatedProducts));
+  // };
 
   const handlePrint = () => {
     window.print();

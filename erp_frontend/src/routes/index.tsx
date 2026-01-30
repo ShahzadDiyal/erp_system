@@ -17,6 +17,13 @@ import OpenPOSPage from '../features/pos/pages/openPosPage'
 import SalesDashboard from '../features/sales/pages/salesDashboard';
 import CreateNewInvoice from '../features/sales/pages/createInvoice';
 import AddInvoiceProducts from '../features/sales/pages/addInvoiceProducts'
+
+
+import HRDashboard from '../features/hr/pages/HRDashboard'
+import AddEmployee from '../features/hr/pages/AddEmployee'
+import MarkAttendance from '../features/hr/pages/MarkAttendance'
+import PreviewLeaveRequests from '../features/hr/pages/PreviewLeaveRequests'
+import LeaveRequestDetails from '../features/hr/pages/LeaveRequestDetails'
 // Simple protected route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   // You can add your auth logic here
@@ -111,6 +118,33 @@ export const router = createBrowserRouter([
           {
             path: 'shift_reports',
             element: <POSShiftReports />,
+          },
+          
+        ],
+      },
+
+         {
+        path: 'hr',
+        children: [
+          {
+            index: true,
+            element: <HRDashboard />,
+          },
+          {
+            path: 'add_employee',
+            element: <AddEmployee />,
+          },
+          {
+            path: 'mark_attendance',
+            element: <MarkAttendance />,
+          },
+          {
+            path: 'leave_requests',
+            element: <PreviewLeaveRequests />,
+          },
+          {
+            path: 'leave_requests/:id',
+            element: <LeaveRequestDetails />,
           },
           
         ],
