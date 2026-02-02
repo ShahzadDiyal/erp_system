@@ -14,6 +14,8 @@ import back_icon from '../../../assets/icons/back_icon.svg'
 import user_icon from '../../../assets/icons/user_icon.svg'
 import add_icon from '../../../assets/icons/add.svg'
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import type { RootState } from '../../../app/store';
 
 
 interface Employee {
@@ -26,11 +28,24 @@ interface Employee {
 }
 
 export default function EmployeeDashboardPage() {
+      const { user } = useAppSelector((state: RootState) => state.auth);
     const navigate = useNavigate();
+
+      // Check user role
+  const isSuperAdmin = user?.role?.role_name === 'Super Admin';
+  const isHR = user?.role?.role_name === 'HR';
+console.log('is hr: ', isHR)
+
+   const basePath = isSuperAdmin 
+    ? '/admin' 
+    : isHR 
+        ? ''
+        : '';
 
 
     const handleRowClick = (requestId: number) => {
-    navigate(`/hr/leave_requests/${requestId}`);
+    navigate(`${basePath}/hr/leave_requests/${requestId}`);
+    
 };
 
     const initialData = {
@@ -340,7 +355,7 @@ export default function EmployeeDashboardPage() {
                     {/* Right Column - Action Buttons (2/12) */}
                     <div className="lg:col-span-2 bg-white flex flex-row justify-between lg:flex-col gap-4 p-8 items-center">
                         {/* Add New Employee */}
-                        <Link to='/hr/add_employee'>
+                        <Link to={`${basePath}/hr/add_employee`}>
                             <button className="w-24 h-36 lg:w-28 lg:h-40 p-2 bg-white border border-gray-100 rounded-full hover:bg-gray-50 transition-colors shadow-sm hover:shadow-lg relative flex items-center justify-center group cursor-pointer overflow-hidden">
                                 {/* Icon */}
                                 <img
@@ -356,7 +371,7 @@ export default function EmployeeDashboardPage() {
                         </Link>
 
                         {/* Mark Attendance */}
-                        <Link to='/hr/mark_attendance'>
+                        <Link to={`${basePath}/hr/mark_attendance`}>
                             <button className="w-24 h-36 lg:w-28 lg:h-40 bg-white border border-gray-100 rounded-full hover:bg-gray-50 transition-colors shadow-sm hover:shadow-lg relative flex items-center justify-center group cursor-pointer overflow-hidden">
                                 <img
                                     src={user_icon}
@@ -370,7 +385,7 @@ export default function EmployeeDashboardPage() {
                         </Link>
 
                         {/* Review Leave Request */}
-                        <Link to="/hr/leave_requests">
+                        <Link to={`${basePath}/hr/leave_requests`}>
                             <button className="w-24 h-36 lg:w-28 lg:h-40 bg-white border border-gray-100 rounded-full hover:bg-gray-50 transition-colors shadow-sm hover:shadow-lg relative flex items-center justify-center group cursor-pointer overflow-hidden">
                                 <img
                                     src={back_icon}

@@ -10,6 +10,8 @@ import cross_icon from '../../../assets/icons/cross_icon.svg';
 
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useAppSelector } from '../../../app/hooks';
+import type { RootState } from '../../../app/store';
 
 interface Allowance {
     id: string;
@@ -18,6 +20,7 @@ interface Allowance {
 }
 
 export default function CreateInvoice() {
+     const { user } = useAppSelector((state: RootState) => state.auth);
     const [employeeId, setEmployeeId] = useState('EMP-021');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -47,6 +50,20 @@ export default function CreateInvoice() {
     const [username, setUsername] = useState('');
     const [systemPassword, setSystemPassword] = useState('');
     const [systemHomeAddress, setSystemHomeAddress] = useState('');
+
+
+          // Check user role
+  const isSuperAdmin = user?.role?.role_name === 'Super Admin';
+  const isHR = user?.role?.role_name === 'HR';
+
+
+   const basePath = isSuperAdmin 
+    ? '/admin' 
+    : isHR 
+        ? '/hr'
+        : '';
+
+
 
     // Load existing data if needed
     useEffect(() => {
@@ -96,7 +113,7 @@ export default function CreateInvoice() {
             <div className="space-y-6 p-4 md:p-6">
                 {/* Header */}
                 <div className='flex flex-row justify-between items-center'>
-                    <Link to='/hr' className='flex flex-row items-center'>
+                    <Link to={`${basePath}/hr`} className='flex flex-row items-center'>
                         <img src={arrow_back_icon} alt="Back" className='w-6 h-6 md:w-8 md:h-8' />
                         <span className='px-2 font-semibold text-sm md:text-base'>Add New Employee</span>
                     </Link>
@@ -104,21 +121,7 @@ export default function CreateInvoice() {
 
                 {/* Main Form */}
                 <div className="space-y-6">
-                    {/* Employee ID Section */}
-                    <div className='bg-white space-y-6 p-4 md:p-6 rounded-xl'>
-                        <div className=''>
-                            <label className="block text-md font-medium text-gray-400 mb-2">
-                                Employee ID
-                            </label>
-                            <input
-                                type="text"
-                                value={employeeId}
-                                onChange={(e) => setEmployeeId(e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg"
-                                placeholder="EMP-021"
-                            />
-                        </div>
-                    </div>
+                    
 
                     {/* Personal Information Section */}
                     <div className="bg-white rounded-xl p-4 md:p-6">

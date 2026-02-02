@@ -9,10 +9,13 @@ import search_icon from '../../../assets/icons/search_icon.svg';
 import filterIcon from '../../../assets/icons/filter_icon.svg';
 import arrow_back_icon from '../../../assets/icons/arrow_back_icon.svg';
 import { Link } from 'react-router-dom';
+import { useAppSelector } from '../../../app/hooks';
+import type { RootState } from '../../../app/store';
 
 export default function DashboardPage() {
 
     const [selectedProductIds, setSelectedProductIds] = useState<number[]>([]);
+     const { user } = useAppSelector((state: RootState) => state.auth);
 
     // Mock product data
     const products = [
@@ -98,7 +101,17 @@ export default function DashboardPage() {
         }
     };
 
+       // Check user role
+  const isSuperAdmin = user?.role?.role_name === 'Super Admin';
+  const isHR = user?.role?.role_name === 'HR';
+  console.log('isHr', isHR)
 
+
+   const basePath = isSuperAdmin 
+    ? '/admin' 
+    : isHR 
+        ? '/hr'
+        : '';
 
 
 
@@ -108,7 +121,7 @@ export default function DashboardPage() {
 
                 {/* Header */}
                 <div className='flex flex-row justify-between items-center'>
-                    <Link to='/hr' className='flex flex-row items-center'>
+                    <Link to={`${basePath}/hr`} className='flex flex-row items-center'>
                         <img src={arrow_back_icon} alt="Back" className='w-6 h-6 md:w-8 md:h-8' />
                         <span className='px-2 font-semibold text-sm md:text-base'>Mark Attendance</span>
                     </Link>

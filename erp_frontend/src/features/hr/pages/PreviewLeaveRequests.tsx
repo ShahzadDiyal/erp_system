@@ -5,12 +5,12 @@ import { useState } from 'react';
 import dropdown_arrow_icon from '../../../assets/icons/dropdown_arrow_icon.svg';
 import search_icon from '../../../assets/icons/search_icon.svg';
 import filterIcon from '../../../assets/icons/filter_icon.svg';
-import arrow_back_icon from '../../../assets/icons/arrow_back_icon.svg';
+// import arrow_back_icon from '../../../assets/icons/arrow_back_icon.svg';
 import export_pdf from '../../../assets/icons/export_pdf.svg';
 import export_excel from '../../../assets/icons/export_excel.svg';
 import tick_icon from '../../../assets/icons/tick_icon_1.svg';
 import cross_icon from '../../../assets/icons/cross_icon.svg';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 export default function DashboardPage() {
     const [selectedRequestIds, setSelectedRequestIds] = useState<number[]>([]);
@@ -116,12 +116,12 @@ export default function DashboardPage() {
         <DashboardLayout>
             <div className="space-y-6">
                 {/* Header */}
-                <div className='flex flex-row justify-between items-center'>
+                {/* <div className='flex flex-row justify-between items-center'>
                     <Link to='/hr' className='flex flex-row items-center'>
                         <img src={arrow_back_icon} alt="Back" className='w-6 h-6 md:w-8 md:h-8' />
                         <span className='px-2 font-semibold text-sm md:text-base'>Preview Leave Requests</span>
                     </Link>
-                </div>
+                </div> */}
 
                 {/* Filters Row */}
                 <div className="p-6">

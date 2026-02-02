@@ -1,17 +1,28 @@
-// src/components/auth/ProtectedRoute.tsx
+// src/components/ProtectedRoute.tsx
 import { Navigate } from 'react-router-dom';
-import { useAppSelector } from '../../app/hooks';
+import { useSelector } from 'react-redux';
 import type { RootState } from '../../app/store';
 
 interface ProtectedRouteProps {
-  children: React.ReactNode; // Change JSX.Element to React.ReactNode
+  children: React.ReactNode;
+  requiredUserType?: 'employee' | 'admin';
 }
 
-export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const { user } = useAppSelector((state: RootState) => state.auth);
+export default function ProtectedRoute({ 
+  children, 
+  requiredUserType 
+}: ProtectedRouteProps) {
+  const { token, userType } = useSelector((state: RootState) => state.auth);
   
-  if (!user) {
-    return <Navigate to="/login" replace />;
+  // Check if user is authenticated
+  if (!token) {
+    return <Navigate to={requiredUserType === 'admin' ? '/admin_login' : '/login'} replace />;
+  }
+  
+  // Check if user type matches required user type
+  if (requiredUserType && userType !== requiredUserType) {
+    // Redirect to appropriate dashboard based on user type
+    return <Navigate to={userType === 'admin' ? '/admin' : '/'} replace />;
   }
   
   return <>{children}</>;

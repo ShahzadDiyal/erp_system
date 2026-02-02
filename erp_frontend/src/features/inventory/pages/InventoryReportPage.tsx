@@ -14,7 +14,6 @@ type TabType = 'stock-summary' | 'inventory-movement' | 'low-stock' | 'damage-di
 export default function DashboardPage() {
     const [showProductDetails, setShowProductDetails] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<any>(null);
-    const [showAddProductModal, setShowAddProductModal] = useState(false);
     const [showBulkTransfer, setShowBulkTransfer] = useState(false);
     const [selectedProductIds, setSelectedProductIds] = useState<number[]>([]);
     const [activeTab, setActiveTab] = useState<TabType>('stock-summary');

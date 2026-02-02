@@ -1,18 +1,24 @@
 // src/features/hr/pages/LeaveRequestDetails.tsx
 import DashboardLayout from '../../../layouts/DashboardLayout';
-import { useParams, Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import arrow_back_icon from '../../../assets/icons/arrow_back_icon.svg';
+// import arrow_back_icon from '../../../assets/icons/arrow_back_icon.svg';
 import dropdown_icon from '../../../assets/icons/dropdown_arrow_icon.svg';
 import edit_icon from '../../../assets/icons/edit_icon.svg';
 import active_icon from '../../../assets/icons/active_rounded_icon.svg';
+// import { useAppSelector } from '../../../app/hooks';
+// import type { RootState } from '../../../app/store';
 
 export default function LeaveRequestDetails() {
-    const { id } = useParams<{ id: string }>();
+            //  const { user } = useAppSelector((state: RootState) => state.auth);
+
+    
     const [personalDetailsOpen, setPersonalDetailsOpen] = useState(false);
     const [employmentDetailsOpen, setEmploymentDetailsOpen] = useState(false);
     const [editingField, setEditingField] = useState<string | null>(null);
-    const [isEditingPersonal, setIsEditingPersonal] = useState(false);
+
+
+
 
     // Mock data
     const employeeData = {
@@ -72,17 +78,32 @@ export default function LeaveRequestDetails() {
         setEditingField(fieldKey === editingField ? null : fieldKey);
     };
 
+
+           // Check user role
+//   const isSuperAdmin = user?.role?.role_name === 'Super Admin';
+//   const isHR = user?.role?.role_name === 'HR';
+
+
+//    const basePath = isSuperAdmin 
+//     ? '/admin' 
+//     : isHR 
+//         ? '/hr'
+//         : '';
+
+   
+
+
     return (
         <DashboardLayout>
             <div className="min-h-screen bg-gray-50">
                 <div className="px-4 md:px-6 py-6 ">
                     {/* Back Button */}
-                    <div className="mb-3">
-                        <Link to='/hr' className='inline-flex items-center text-gray-600 hover:text-gray-900'>
-                            <img src={arrow_back_icon} alt="Back" className='w-5 h-5 mr-2' />
-                            <span className="text-md font-medium">Back</span>
-                        </Link>
-                    </div>
+                    {/* <div className="mb-3">
+                       <Link to={`${basePath}/hr`} className='inline-flex items-center text-gray-600 hover:text-gray-900'>
+  <img src={arrow_back_icon} alt="Back" className='w-5 h-5 mr-2' />
+  <span className="text-md font-medium">Back</span>
+</Link>
+                    </div> */}
 
                     {/* First Row: Employee Name and Active Button */}
                     <div className="px-3 py-6 mb-3">
