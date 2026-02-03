@@ -20,8 +20,7 @@ interface Allowance {
 }
 
 export default function CreateInvoice() {
-     const { user } = useAppSelector((state: RootState) => state.auth);
-    const [employeeId, setEmployeeId] = useState('EMP-021');
+    const { user } = useAppSelector((state: RootState) => state.auth);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [gender, setGender] = useState('');
@@ -52,16 +51,16 @@ export default function CreateInvoice() {
     const [systemHomeAddress, setSystemHomeAddress] = useState('');
 
 
-          // Check user role
-  const isSuperAdmin = user?.role?.role_name === 'Super Admin';
-  const isHR = user?.role?.role_name === 'HR';
+    // Check user role
+    const isSuperAdmin = user?.role?.role_name === 'Super Admin';
+    const isHR = user?.role?.role_name === 'HR';
 
 
-   const basePath = isSuperAdmin 
-    ? '/admin' 
-    : isHR 
-        ? '/hr'
-        : '';
+    const basePath = isSuperAdmin
+        ? '/admin'
+        : isHR
+            ? '/hr'
+            : '';
 
 
 
@@ -121,7 +120,7 @@ export default function CreateInvoice() {
 
                 {/* Main Form */}
                 <div className="space-y-6">
-                    
+
 
                     {/* Personal Information Section */}
                     <div className="bg-white rounded-xl p-4 md:p-6">

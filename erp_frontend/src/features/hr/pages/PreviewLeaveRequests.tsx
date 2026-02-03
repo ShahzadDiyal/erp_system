@@ -193,16 +193,16 @@ export default function DashboardPage() {
                     <div className="pt-6">
                         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                             {/* Search Field */}
-                             <div className="relative w-full sm:w-auto rounded-full ">
-                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <img src={search_icon} alt="Search" className="w-5 h-5 text-gray-400" />
-                                    </div>
-                                    <input
-                                        type="text"
-                                        placeholder="Employee ID"
-                                        className="pl-10 pr-4 py-2.5 border border-[#00000080] rounded-full focus:border-blue-500 w-full sm:w-[360px]"
-                                    />
+                            <div className="relative w-full sm:w-auto rounded-full ">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <img src={search_icon} alt="Search" className="w-5 h-5 text-gray-400" />
                                 </div>
+                                <input
+                                    type="text"
+                                    placeholder="Employee ID"
+                                    className="pl-10 pr-4 py-2.5 border border-[#00000080] rounded-full focus:border-blue-500 w-full sm:w-[360px]"
+                                />
+                            </div>
 
                             {/* Action Buttons */}
                             <div className="flex items-center space-x-3 w-full sm:w-auto">

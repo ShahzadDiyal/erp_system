@@ -31,20 +31,20 @@ interface SelectedProduct {
 }
 
 export default function AddInvoiceProducts() {
-         const { user } = useAppSelector((state: RootState) => state.auth);
-  
+  const { user } = useAppSelector((state: RootState) => state.auth);
+
   const navigate = useNavigate();
-  
+
   // Search query state
   const [searchQuery, setSearchQuery] = useState('');
-  
+
   // Category state
   const [selectedCategory, setSelectedCategory] = useState('All Items');
-  
+
   // Popup state
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  
+
   // Selected products for invoice
   const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>([]);
 
@@ -173,16 +173,16 @@ export default function AddInvoiceProducts() {
   }, [searchQuery, selectedCategory, products]);
 
 
-            // Check user role
+  // Check user role
   const isSuperAdmin = user?.role?.role_name === 'Super Admin';
   const isCashier = user?.role?.role_name === 'Cashier';
 
 
-   const basePath = isSuperAdmin 
-    ? '/admin' 
-    : isCashier 
-        ? ''
-        : '';
+  const basePath = isSuperAdmin
+    ? '/admin'
+    : isCashier
+      ? ''
+      : '';
 
 
   // Handle product card click - THIS IS THE KEY FUNCTION
@@ -211,7 +211,7 @@ export default function AddInvoiceProducts() {
           <Link to={`${basePath}/sales`}>
             <img src={arrow_back_icon} alt="" className='w-8 h-8' />
           </Link>
-          <button 
+          <button
             onClick={handleMoveForward}
             className='py-2 px-4 border-1 border-blue-600 rounded-md cursor-pointer hover:bg-blue-600 hover:text-white hover:font-semibold transition-all relative'
           >

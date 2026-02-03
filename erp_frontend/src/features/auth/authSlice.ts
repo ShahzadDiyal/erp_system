@@ -33,7 +33,7 @@ interface AuthState {
 const getInitialAuthState = (): AuthState => {
   const erpAuth = localStorage.getItem('erp_auth');
   const employeeAuth = localStorage.getItem('employee_auth');
-  
+
   if (erpAuth) {
     const parsed = JSON.parse(erpAuth);
     return {
@@ -42,7 +42,7 @@ const getInitialAuthState = (): AuthState => {
       isLoading: false
     };
   }
-  
+
   if (employeeAuth) {
     const parsed = JSON.parse(employeeAuth);
     return {
@@ -51,7 +51,7 @@ const getInitialAuthState = (): AuthState => {
       isLoading: false
     };
   }
-  
+
   return {
     token: null,
     user: null,
@@ -71,18 +71,18 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.userType = action.payload.userType;
       state.isLoading = false;
-      
+
       // Store in appropriate localStorage
       if (action.payload.userType === 'admin') {
-        localStorage.setItem('erp_auth', JSON.stringify({ 
-          token: state.token, 
-          user: state.user 
+        localStorage.setItem('erp_auth', JSON.stringify({
+          token: state.token,
+          user: state.user
         }));
         localStorage.removeItem('employee_auth'); // Clear employee auth
       } else {
-        localStorage.setItem('employee_auth', JSON.stringify({ 
-          token: state.token, 
-          user: state.user 
+        localStorage.setItem('employee_auth', JSON.stringify({
+          token: state.token,
+          user: state.user
         }));
         localStorage.removeItem('erp_auth'); // Clear admin auth
       }

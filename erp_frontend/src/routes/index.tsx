@@ -47,15 +47,15 @@ const getStoredUser = () => {
   return null;
 };
 
-const isSuperAdmin = () => {
-  const user = getStoredUser();
-  return user?.role?.role_name === 'Super Admin';
-};
+// const isSuperAdmin = () => {
+//   const user = getStoredUser();
+//   return user?.role?.role_name === 'Super Admin';
+// };
 
-const isHR = () => {
-  const user = getStoredUser();
-  return user?.role?.role_name === 'HR' || user?.role?.role_name === 'HR Manager';
-};
+// const isHR = () => {
+//   const user = getStoredUser();
+//   return user?.role?.role_name === 'HR' || user?.role?.role_name === 'HR Manager';
+// };
 
 const hasPermission = (requiredPermission: string) => {
   const user = getStoredUser();

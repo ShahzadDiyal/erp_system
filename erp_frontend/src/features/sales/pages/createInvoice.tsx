@@ -22,8 +22,8 @@ interface SelectedProduct {
 }
 
 export default function CreateInvoice() {
-       const { user } = useAppSelector((state: RootState) => state.auth);
-  
+  const { user } = useAppSelector((state: RootState) => state.auth);
+
   const [selectedInvoiceType, setSelectedInvoiceType] = useState<InvoiceType>('b2c');
   const [invoiceNo, setInvoiceNo] = useState('INV-B2C-01452');
   const [source, setSource] = useState('');
@@ -96,19 +96,19 @@ export default function CreateInvoice() {
     console.log('Exporting PDF...');
     alert('Exporting PDF...');
   };
-  
 
-  
-          // Check user role
+
+
+  // Check user role
   const isSuperAdmin = user?.role?.role_name === 'Super Admin';
   const isCashier = user?.role?.role_name === 'Cashier';
 
 
-   const basePath = isSuperAdmin 
-    ? '/admin' 
-    : isCashier 
-        ? ''
-        : '';
+  const basePath = isSuperAdmin
+    ? '/admin'
+    : isCashier
+      ? ''
+      : '';
 
 
   return (
@@ -520,105 +520,105 @@ export default function CreateInvoice() {
               <div className="space-y-6">
                 {/* Products Header */}
                 <div className="">
-                 <div className='flex items-center justify-between bg-white p-6'>
-                   <h3 className="text-lg font-semibold text-gray-900">Products</h3>
-                  <Link to={`${basePath}/sales/add_product`}>
-                    <button className="flex items-center gap-2 px-4 py-2 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors cursor-pointer">
-                      <img src={add_icon} alt="" />
-                      <span className="font-medium">Add Product</span>
-                    </button>
-                  </Link>
-                 </div>
-                   {/* Selected Products Table */}
-                {selectedProducts.length > 0 && (
-                  <div className="bg-white rounded-lg overflow-hidden">
-                    <div className="overflow-x-auto ">
+                  <div className='flex items-center justify-between bg-white p-6'>
+                    <h3 className="text-lg font-semibold text-gray-900">Products</h3>
+                    <Link to={`${basePath}/sales/add_product`}>
+                      <button className="flex items-center gap-2 px-4 py-2 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors cursor-pointer">
+                        <img src={add_icon} alt="" />
+                        <span className="font-medium">Add Product</span>
+                      </button>
+                    </Link>
+                  </div>
+                  {/* Selected Products Table */}
+                  {selectedProducts.length > 0 && (
+                    <div className="bg-white rounded-lg overflow-hidden">
+                      <div className="overflow-x-auto ">
                         <h2 className='text-lg font-semibold px-4 py-2 bg-none shadow'>Product Table</h2>
-                  
-                      <table className="w-full shadow-lg">
-                        <thead className="bg-gray-50 border-b border-gray-200 ">
-                          <tr>
-                            <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                              Image
-                            </th>
-                            <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                              Product
-                            </th>
-                            <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                              SKU
-                            </th>
-                            <th className="px-6 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                              Qty
-                            </th>
-                            <th className="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                              Price
-                            </th>
-                            <th className="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                              Tax
-                            </th>
-                            <th className="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                              Total
-                            </th>
-                            {/* <th className="px-6 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+
+                        <table className="w-full shadow-lg">
+                          <thead className="bg-gray-50 border-b border-gray-200 ">
+                            <tr>
+                              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                Image
+                              </th>
+                              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                Product
+                              </th>
+                              <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                SKU
+                              </th>
+                              <th className="px-6 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                Qty
+                              </th>
+                              <th className="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                Price
+                              </th>
+                              <th className="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                Tax
+                              </th>
+                              <th className="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                Total
+                              </th>
+                              {/* <th className="px-6 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
                               Action
                             </th> */}
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-200">
-                          {selectedProducts.map((product) => {
-                            const productSubtotal = product.price * product.quantity;
-                            const productTax = productSubtotal * 0.05;
-                            const productTotal = productSubtotal + productTax;
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-gray-200">
+                            {selectedProducts.map((product) => {
+                              const productSubtotal = product.price * product.quantity;
+                              const productTax = productSubtotal * 0.05;
+                              const productTotal = productSubtotal + productTax;
 
-                            return (
-                              <tr key={product.id} className="hover:bg-gray-50 transition-colors">
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                  <img 
-                                    src={product.image} 
-                                    alt={product.name} 
-                                    className="w-12 h-12 object-cover rounded-md"
-                                  />
-                                </td>
-                                <td className="px-6 py-4">
-                                  <div className="text-sm font-medium text-gray-900">{product.name}</div>
-                                  <div className="text-sm text-gray-500">Size: {product.size}</div>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                  <div className="text-sm text-gray-900">{product.sku}</div>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                  <div className="flex items-center justify-center gap-2">
-                                    {/* <button
+                              return (
+                                <tr key={product.id} className="hover:bg-gray-50 transition-colors">
+                                  <td className="px-6 py-4 whitespace-nowrap">
+                                    <img
+                                      src={product.image}
+                                      alt={product.name}
+                                      className="w-12 h-12 object-cover rounded-md"
+                                    />
+                                  </td>
+                                  <td className="px-6 py-4">
+                                    <div className="text-sm font-medium text-gray-900">{product.name}</div>
+                                    <div className="text-sm text-gray-500">Size: {product.size}</div>
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap">
+                                    <div className="text-sm text-gray-900">{product.sku}</div>
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap">
+                                    <div className="flex items-center justify-center gap-2">
+                                      {/* <button
                                       onClick={() => handleUpdateQuantity(product.id, product.quantity - 1)}
                                       className="w-7 h-7 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded transition-colors"
                                     >
                                       <span className="text-gray-600 font-semibold">-</span>
                                     </button> */}
-                                    <span className="w-10 text-center font-medium text-gray-900">{product.quantity}</span>
-                                    {/* <button
+                                      <span className="w-10 text-center font-medium text-gray-900">{product.quantity}</span>
+                                      {/* <button
                                       onClick={() => handleUpdateQuantity(product.id, product.quantity + 1)}
                                       className="w-7 h-7 flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors"
                                     >
                                       <span className="font-semibold">+</span>
                                     </button> */}
-                                  </div>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-right">
-                                  <div className="text-sm font-medium text-gray-900">
-                                    KWD {product.price.toFixed(2)}
-                                  </div>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-right">
-                                  <div className="text-sm text-gray-900">
-                                    KWD {productTax.toFixed(2)}
-                                  </div>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-right">
-                                  <div className="text-sm font-semibold text-gray-900">
-                                    KWD {productTotal.toFixed(2)}
-                                  </div>
-                                </td>
-                                {/* <td className="px-6 py-4 whitespace-nowrap text-center">
+                                    </div>
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-right">
+                                    <div className="text-sm font-medium text-gray-900">
+                                      KWD {product.price.toFixed(2)}
+                                    </div>
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-right">
+                                    <div className="text-sm text-gray-900">
+                                      KWD {productTax.toFixed(2)}
+                                    </div>
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-right">
+                                    <div className="text-sm font-semibold text-gray-900">
+                                      KWD {productTotal.toFixed(2)}
+                                    </div>
+                                  </td>
+                                  {/* <td className="px-6 py-4 whitespace-nowrap text-center">
                                   <button
                                     onClick={() => handleRemoveProduct(product.id)}
                                     className="inline-flex items-center justify-center p-2 text-red-600 hover:bg-red-50 rounded-md transition-colors"
@@ -628,17 +628,17 @@ export default function CreateInvoice() {
                                     </svg>
                                   </button>
                                 </td> */}
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
                 </div>
 
-              
+
 
                 {/* Summary Section */}
                 <div className="bg-white rounded-lg p-6">
@@ -678,55 +678,55 @@ export default function CreateInvoice() {
                 {/* Payment Section - Only show when products are selected */}
                 {selectedProducts.length > 0 && (
                   <>
-                  <div className="bg-white rounded-lg p-6 space-y-6">
-                    {/* Payment Method */}
-                    <div>
-                      <h4 className="text-base font-semibold mb-4">Payment Method</h4>
-                      <div className="space-y-3">
-                        {['CASH', 'CARD', 'KNET'].map((method) => (
-                          <label
-                            key={method}
-                            className="flex items-center justify-between cursor-pointer"
-                          >
-                            <span className="text-sm text-gray-700">{method}</span>
-                            <input
-                              type="radio"
-                              name="paymentMethod"
-                              value={method}
-                              checked={paymentMethod === method}
-                              onChange={(e) => setPaymentMethod(e.target.value as 'CASH' | 'CARD' | 'KNET')}
-                              className="w-5 h-5 text-blue-600 focus:ring-blue-600"
-                            />
-                          </label>
-                        ))}
+                    <div className="bg-white rounded-lg p-6 space-y-6">
+                      {/* Payment Method */}
+                      <div>
+                        <h4 className="text-base font-semibold mb-4">Payment Method</h4>
+                        <div className="space-y-3">
+                          {['CASH', 'CARD', 'KNET'].map((method) => (
+                            <label
+                              key={method}
+                              className="flex items-center justify-between cursor-pointer"
+                            >
+                              <span className="text-sm text-gray-700">{method}</span>
+                              <input
+                                type="radio"
+                                name="paymentMethod"
+                                value={method}
+                                checked={paymentMethod === method}
+                                onChange={(e) => setPaymentMethod(e.target.value as 'CASH' | 'CARD' | 'KNET')}
+                                className="w-5 h-5 text-blue-600 focus:ring-blue-600"
+                              />
+                            </label>
+                          ))}
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Payment Status */}
-                    <div>
-                      <h4 className="text-base font-semibold mb-4">Payment Status</h4>
-                      <div className="space-y-3">
-                        {['PAID', 'UNPAID', 'PARTIAL'].map((status) => (
-                          <label
-                            key={status}
-                            className="flex items-center justify-between cursor-pointer"
-                          >
-                            <span className="text-sm text-gray-700">{status}</span>
-                            <input
-                              type="radio"
-                              name="paymentStatus"
-                              value={status}
-                              checked={paymentStatus === status}
-                              onChange={(e) => setPaymentStatus(e.target.value as 'PAID' | 'UNPAID' | 'PARTIAL')}
-                              className="w-5 h-5 text-blue-600 focus:ring-blue-500"
-                            />
-                          </label>
-                        ))}
+                      {/* Payment Status */}
+                      <div>
+                        <h4 className="text-base font-semibold mb-4">Payment Status</h4>
+                        <div className="space-y-3">
+                          {['PAID', 'UNPAID', 'PARTIAL'].map((status) => (
+                            <label
+                              key={status}
+                              className="flex items-center justify-between cursor-pointer"
+                            >
+                              <span className="text-sm text-gray-700">{status}</span>
+                              <input
+                                type="radio"
+                                name="paymentStatus"
+                                value={status}
+                                checked={paymentStatus === status}
+                                onChange={(e) => setPaymentStatus(e.target.value as 'PAID' | 'UNPAID' | 'PARTIAL')}
+                                className="w-5 h-5 text-blue-600 focus:ring-blue-500"
+                              />
+                            </label>
+                          ))}
+                        </div>
                       </div>
-                    </div>
 
-                  
-                  </div>
+
+                    </div>
                     <div className="grid grid-cols-3 gap-4 pt-4">
                       <button
                         onClick={handlePrint}
@@ -747,7 +747,7 @@ export default function CreateInvoice() {
                         Export PDF
                       </button>
                     </div>
-                    </>
+                  </>
                 )}
               </div>
             </div>

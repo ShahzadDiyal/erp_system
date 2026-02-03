@@ -60,11 +60,11 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
 
   // Base path for navigation links
   // For HR users, they should use regular routes (not /admin)
-  const basePath = isSuperAdmin
-    ? '/admin'
-    : isHR
-      ? '/hr'
-      : '';
+  // const basePath = isSuperAdmin
+  //   ? '/admin'
+  //   : isHR
+  //     ? '/hr'
+  //     : '';
 
 
   // Sample branches data
@@ -121,8 +121,8 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
                           setShowBranchDropdown(false);
                         }}
                         className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${selectedBranch.id === branch.id
-                            ? 'bg-blue-50 text-blue-600 font-medium'
-                            : 'text-gray-700 hover:bg-gray-100'
+                          ? 'bg-blue-50 text-blue-600 font-medium'
+                          : 'text-gray-700 hover:bg-gray-100'
                           }`}
                       >
                         {branch.name}
@@ -157,12 +157,12 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
           )}
 
 
- <Link to={isSuperAdmin ? "/admin/sales/create_invoice" : "/sales/create_invoice"}>
-                         <button className="hidden md:flex items-center space-x-2 px-4 py-2 text-black border-1 border-blue-600 rounded-lg cursor-pointer transition-colors">
-                            <img src={add_invoice} alt="" />
-                            <span className="text-sm font-medium">Create New Invoice</span>
-                        </button>
-                       </Link>
+          <Link to={isSuperAdmin ? "/admin/sales/create_invoice" : "/sales/create_invoice"}>
+            <button className="hidden md:flex items-center space-x-2 px-4 py-2 text-black border-1 border-blue-600 rounded-lg cursor-pointer transition-colors">
+              <img src={add_invoice} alt="" />
+              <span className="text-sm font-medium">Create New Invoice</span>
+            </button>
+          </Link>
 
 
           {/* Shift Close Button */}

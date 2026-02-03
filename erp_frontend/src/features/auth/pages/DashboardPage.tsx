@@ -369,7 +369,7 @@ export default function DashboardPage() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between">
                 <h2 className="text-lg font-semibold text-gray-900">Recent Activities</h2>
                 <button className="text-blue-600 hover:text-blue-800 hover:underline font-medium text-sm mt-2 sm:mt-0">
-                  View All 
+                  View All
                 </button>
               </div>
             </div>

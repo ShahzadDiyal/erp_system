@@ -14,7 +14,7 @@ import back_icon from '../../../assets/icons/back_icon.svg'
 import user_icon from '../../../assets/icons/user_icon.svg'
 import add_icon from '../../../assets/icons/add.svg'
 import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { useAppSelector } from '../../../app/hooks';
 import type { RootState } from '../../../app/store';
 
 
@@ -28,25 +28,25 @@ interface Employee {
 }
 
 export default function EmployeeDashboardPage() {
-      const { user } = useAppSelector((state: RootState) => state.auth);
+    const { user } = useAppSelector((state: RootState) => state.auth);
     const navigate = useNavigate();
 
-      // Check user role
-  const isSuperAdmin = user?.role?.role_name === 'Super Admin';
-  const isHR = user?.role?.role_name === 'HR';
-console.log('is hr: ', isHR)
+    // Check user role
+    const isSuperAdmin = user?.role?.role_name === 'Super Admin';
+    const isHR = user?.role?.role_name === 'HR';
+    console.log('is hr: ', isHR)
 
-   const basePath = isSuperAdmin 
-    ? '/admin' 
-    : isHR 
-        ? ''
-        : '';
+    const basePath = isSuperAdmin
+        ? '/admin'
+        : isHR
+            ? ''
+            : '';
 
 
     const handleRowClick = (requestId: number) => {
-    navigate(`${basePath}/hr/leave_requests/${requestId}`);
-    
-};
+        navigate(`${basePath}/hr/leave_requests/${requestId}`);
+
+    };
 
     const initialData = {
         active: 55,
@@ -324,7 +324,7 @@ console.log('is hr: ', isHR)
                                 </thead>
                                 <tbody className="divide-y divide-gray-200">
                                     {employees.map((employee, index) => (
-                                        <tr key={index} className="hover:bg-gray-50 transition-colors" onClick={(e) =>{ e.stopPropagation(); handleRowClick(index)}}>
+                                        <tr key={index} className="hover:bg-gray-50 transition-colors" onClick={(e) => { e.stopPropagation(); handleRowClick(index) }}>
                                             <td className="px-4 py-4 whitespace-nowrap">
                                                 <span className="text-sm font-medium text-gray-900">{employee.empId}</span>
                                             </td>

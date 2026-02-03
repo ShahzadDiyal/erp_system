@@ -12,9 +12,9 @@ import filterIcon from '../../../assets/icons/filter_icon.svg';
 type TabType = 'stock-summary' | 'inventory-movement' | 'low-stock' | 'damage-discard' | 'transfer-history';
 
 export default function DashboardPage() {
-    const [showProductDetails, setShowProductDetails] = useState(false);
-    const [selectedProduct, setSelectedProduct] = useState<any>(null);
-    const [showBulkTransfer, setShowBulkTransfer] = useState(false);
+    // const [showProductDetails, setShowProductDetails] = useState(false);
+    // const [selectedProduct, setSelectedProduct] = useState<any>(null);
+    const [showBulkTransfer] = useState(false);
     const [selectedProductIds, setSelectedProductIds] = useState<number[]>([]);
     const [activeTab, setActiveTab] = useState<TabType>('stock-summary');
 
@@ -303,10 +303,10 @@ export default function DashboardPage() {
         },
     ];
 
-    const handleViewProduct = (product: any) => {
-        setSelectedProduct(product);
-        setShowProductDetails(true);
-    };
+    // const handleViewProduct = (product: any) => {
+    //     setSelectedProduct(product);
+    //     setShowProductDetails(true);
+    // };
 
     const handleProductSelect = (productId: number) => {
         setSelectedProductIds(prev => {
