@@ -9,13 +9,13 @@ export const api = createApi({
       const token = (getState() as RootState).auth.token;
       if (token) headers.set('authorization', `Bearer ${token}`);
 
-       headers.set('Accept', 'application/json');
+      headers.set('Accept', 'application/json');
       headers.set('Content-Type', 'application/json');
-        headers.set('ngrok-skip-browser-warning', 'true');
+      headers.set('ngrok-skip-browser-warning', 'true');
       return headers;
     },
   }),
-  tagTypes: ['Roles', 'Branches', 'Permissions', 'Staff'], // Add tag types
+  tagTypes: ['Roles', 'Branches', 'Permissions', 'Staff','Products'], // Add tag types
   endpoints: () => ({
     // You can add common endpoints here, or keep it empty
     // SuperAdmin endpoints will be injected

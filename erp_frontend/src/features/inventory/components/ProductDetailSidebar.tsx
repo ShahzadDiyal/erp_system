@@ -40,19 +40,19 @@ export default function ProductDetailsSidebar({ isOpen, product, onClose }: Prod
 
     // Mock data for demonstration - you can replace with actual data from your product
     const productImages = [
-        product.image,
-        product.image,
-        product.image,
-        product.image,
+        product.image || 'https://via.placeholder.com/150',
+        product.image || 'https://via.placeholder.com/150',
+        product.image || 'https://via.placeholder.com/150',
+        product.image || 'https://via.placeholder.com/150',
     ];
 
     const specifications = [
-        { label: 'Category', value: 'Mobiles / Smartphones' },
+        { label: 'Category', value: product.category || 'Not specified' },
         { label: 'Unit', value: 'Piece' },
         { label: 'Weight', value: '210 g' },
         { label: 'Dimensions', value: '146.7 × 71.5 × 7.7 mm' },
         { label: 'Color', value: 'Space Black' },
-        { label: 'SKU', value: product.sku },
+        { label: 'SKU', value: product.sku || 'N/A' },
     ];
 
     const otherSpecifications = [
@@ -69,7 +69,9 @@ export default function ProductDetailsSidebar({ isOpen, product, onClose }: Prod
         { name: 'Qerain Branch', available: 42, reserved: 5, total: 47 },
     ];
 
-    const profitMargin = (((product.price - product.cost) / product.cost) * 100).toFixed(1);
+    const profitMargin = product.price && product.cost 
+        ? (((product.price - product.cost) / product.cost) * 100).toFixed(1)
+        : '0.0';
 
     const handleThumbnailClick = (index: number) => {
         setSelectedImageIndex(index);
@@ -112,7 +114,7 @@ export default function ProductDetailsSidebar({ isOpen, product, onClose }: Prod
             {/* Overlay */}
             {isOpen && (
                 <div
-                    className="fixed inset-0 bg-opacity-30 z-40 transition-opacity duration-300"
+                    className="fixed inset-0 bg-black bg-opacity-30 z-40 transition-opacity duration-300"
                     onClick={onClose}
                 />
             )}
@@ -148,7 +150,7 @@ export default function ProductDetailsSidebar({ isOpen, product, onClose }: Prod
                                 <div className="relative bg-gray-50 border border-[#0000001A] rounded-xl h-full min-h-[350px] md:min-h-[400px] lg:min-h-[500px] flex items-center justify-center overflow-hidden">
                                     <img
                                         src={productImages[selectedImageIndex]}
-                                        alt={product.name}
+                                        alt={product.name || 'Product'}
                                         className="w-full h-full object-contain p-6"
                                     />
 
@@ -164,7 +166,7 @@ export default function ProductDetailsSidebar({ isOpen, product, onClose }: Prod
                                                     />
                                                 ))}
                                             </div>
-                                            <span className="text-xs font-mono">3232348462</span>
+                                            <span className="text-xs font-mono">{product.sku || '3232348462'}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -186,7 +188,7 @@ export default function ProductDetailsSidebar({ isOpen, product, onClose }: Prod
                                             <div className="w-full h-full bg-gray-50 p-2">
                                                 <img
                                                     src={img}
-                                                    alt={`${product.name} ${index + 1}`}
+                                                    alt={`${product.name || 'Product'} ${index + 1}`}
                                                     className="w-full h-full object-contain"
                                                 />
                                             </div>
@@ -198,9 +200,11 @@ export default function ProductDetailsSidebar({ isOpen, product, onClose }: Prod
                             {/* Third Column - Product Details (Equal size with first column) */}
                             <div className="md:col-span-5 lg:col-span-5 bg-white p-4 rounded-xl">
                                 <div className="space-y-4">
-                                    {/* Product Title */}
+                                    {/* Product Title - FIXED LINE 245 */}
                                     <div className="bg-gray-50 rounded-xl p-3">
-                                        <h2 className="text-2xl font-bold text-gray-900">{product.name.toUpperCase()}</h2>
+                                        <h2 className="text-2xl font-bold text-gray-900">
+                                            {(product.name || '').toUpperCase()}
+                                        </h2>
                                         <p className="text-sm text-gray-600 mt-2 leading-relaxed">
                                             Apple iPhone 14 Pro with A16 Bionic chip, ProMotion display, and advanced camera system.
                                         </p>
@@ -239,19 +243,19 @@ export default function ProductDetailsSidebar({ isOpen, product, onClose }: Prod
                             <div className="bg-white rounded-lg p-4">
                                 <p className="text-sm text-gray-500 font-semibold mb-2">Cost Price</p>
                                 <p className="text-xl font-semibold text-gray-900 border border-[#0088FF] p-2 rounded-md text-center">
-                                    KWD {product.cost}
+                                    KWD {product.cost || 0}
                                 </p>
                             </div>
                             <div className="bg-white rounded-lg p-4">
                                 <p className="text-sm text-gray-500 font-semibold mb-2">Selling Price</p>
                                 <p className="text-xl font-semibold text-gray-900 border border-[#0088FF] p-2 rounded-md text-center">
-                                    KWD {product.price}
+                                    KWD {product.price || 0}
                                 </p>
                             </div>
                             <div className="bg-white rounded-lg p-4">
                                 <p className="text-sm text-gray-500 font-semibold mb-2">Profit</p>
                                 <p className="text-xl font-semibold text-gray-900 border border-[#0088FF] p-2 rounded-md text-center">
-                                    KWD {product.price - product.cost}
+                                    KWD {(product.price || 0) - (product.cost || 0)}
                                 </p>
                             </div>
                             <div className="bg-white rounded-lg p-4">

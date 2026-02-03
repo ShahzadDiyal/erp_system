@@ -1,15 +1,27 @@
 // src/layouts/components/Topbar.tsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { logout } from '../../features/auth/authSlice';
 import { ChevronDown } from '../../components/shared/icons';
+import { useGetBranchesQuery } from '../../services/superAdminApi';
 import type { RootState } from '../../app/store';
-import history_icon_2 from '../../assets/icons/history_icon_3.svg'
-import add_invoice from '../../assets/icons/add.svg'
+import history_icon_2 from '../../assets/icons/history_icon_3.svg';
+import add_invoice from '../../assets/icons/add.svg';
 
 interface TopbarProps {
   pageTitle?: string;
+}
+
+// Define Branch type interface
+interface Branch {
+  id: number;
+  branch_name: string;
+  // Add other properties if they exist in your API response
+  // Example:
+  // address?: string;
+  // phone?: string;
+  // is_active?: boolean;
 }
 
 export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps) {
@@ -21,9 +33,30 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
 
+  // Fetch branches from API
+  const {
+    data: branchesData = [],
+    isLoading: branchesLoading,
+    error: branchesError,
+  } = useGetBranchesQuery();
+
+  // Ensure branches is always an array
+  const branches: Branch[] = Array.isArray(branchesData) ? branchesData : [];
+
+  // Initialize selected branch - default to first branch if available
+  const [selectedBranch, setSelectedBranch] = useState<Branch | null>(null);
+
+  // Set initial selected branch when branches load
+  useEffect(() => {
+    if (branches.length > 0 && !selectedBranch) {
+      setSelectedBranch(branches[0]);
+    }
+  }, [branches, selectedBranch]);
+
   // Check user role
   const isSuperAdmin = user?.role?.role_name === 'Super Admin';
   const isHR = user?.role?.role_name === 'HR' || user?.role?.role_name === 'HR Manager';
+
   // Check if user has specific permissions
   const hasCreateRolePermission = () => {
     if (!user || !user.role || !user.role.permissions) return false;
@@ -58,29 +91,12 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
   const canCreateRole = hasCreateRolePermission();
   const canCreateUser = hasCreateUserPermission();
 
-  // Base path for navigation links
-  // For HR users, they should use regular routes (not /admin)
-  // const basePath = isSuperAdmin
-  //   ? '/admin'
-  //   : isHR
-  //     ? '/hr'
-  //     : '';
-
-
-  // Sample branches data
-  const branches = [
-    { id: 1, name: 'Qurain Branch' },
-    { id: 2, name: 'Kuwait City Branch' },
-    { id: 3, name: 'Ardiya Branch' },
-    { id: 4, name: 'Warehouse - Qurain' },
-  ];
-
-  const [selectedBranch, setSelectedBranch] = useState(branches[0]);
-
   const handleLogout = () => {
     dispatch(logout());
     navigate(isSuperAdmin ? '/admin_login' : '/login');
   };
+
+ 
 
   return (
     <header className="sticky top-0 h-18 bg-white border-b border-gray-200 z-30">
@@ -96,13 +112,22 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
           <div className="relative">
             <button
               onClick={() => setShowBranchDropdown(!showBranchDropdown)}
-              className="flex items-center space-x-2 px-3 py-2 md:px-4 md:py-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 transition-colors"
+              className="flex items-center space-x-2 px-3 py-2 md:px-4 md:py-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={branchesLoading || !!branchesError}
             >
-              <span className="text-sm font-medium text-gray-700">{selectedBranch.name}</span>
+              {branchesLoading ? (
+                <span className="text-sm text-gray-500">Loading branches...</span>
+              ) : branchesError ? (
+                <span className="text-sm text-red-600">Failed to load branches</span>
+              ) : selectedBranch ? (
+                <span className="text-sm font-medium text-gray-700">{selectedBranch.branch_name}</span>
+              ) : (
+                <span className="text-sm text-gray-500">No branches available</span>
+              )}
               <ChevronDown className="w-4 h-4 text-gray-500" />
             </button>
 
-            {showBranchDropdown && (
+            {showBranchDropdown && !branchesLoading && !branchesError && branches.length > 0 && (
               <>
                 <div
                   className="fixed inset-0 z-40"
@@ -120,18 +145,20 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
                           setSelectedBranch(branch);
                           setShowBranchDropdown(false);
                         }}
-                        className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${selectedBranch.id === branch.id
-                          ? 'bg-blue-50 text-blue-600 font-medium'
-                          : 'text-gray-700 hover:bg-gray-100'
+                        className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${selectedBranch?.id === branch.id
+                            ? 'bg-blue-50 text-blue-600 font-medium'
+                            : 'text-gray-700 hover:bg-gray-100'
                           }`}
                       >
-                        {branch.name}
+                        {branch.branch_name}
                       </button>
                     ))}
                   </div>
                 </div>
               </>
             )}
+
+
           </div>
         </div>
 
@@ -156,7 +183,6 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
             </Link>
           )}
 
-
           <Link to={isSuperAdmin ? "/admin/sales/create_invoice" : "/sales/create_invoice"}>
             <button className="hidden md:flex items-center space-x-2 px-4 py-2 text-black border-1 border-blue-600 rounded-lg cursor-pointer transition-colors">
               <img src={add_invoice} alt="" />
@@ -164,12 +190,13 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
             </button>
           </Link>
 
-
           {/* Shift Close Button */}
-          <button className="hidden md:flex items-center space-x-2 px-4 py-2 bg-[#FF5F57] text-white rounded-lg hover:bg-[#FF4A42] transition-colors">
-            <img src={history_icon_2} alt="Shift Close" className="w-4 h-4" />
-            <span className="text-sm font-medium">Shift Close 12:27</span>
-          </button>
+          {(user?.role?.role_name === 'Cashier' || user?.role?.role_name === 'cashier') && (
+            <button className="hidden md:flex items-center space-x-2 px-4 py-2 bg-[#FF5F57] text-white rounded-lg hover:bg-[#FF4A42] transition-colors">
+              <img src={history_icon_2} alt="Shift Close" className="w-4 h-4" />
+              <span className="text-sm font-medium">Shift Close 12:27</span>
+            </button>
+          )}
 
           {/* Notifications */}
           <div className="relative">
@@ -214,6 +241,17 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
             )}
           </div>
 
+          {/* Settings */}
+          <button
+            className="p-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+            aria-label="Settings"
+          >
+            <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </button>
+
           {/* Profile Menu */}
           <div className="relative">
             <button
@@ -250,12 +288,9 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
                         setShowProfileMenu(false);
                         navigate('/profile');
                       }}
-                      className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition-colors"
+                      className="cursor-pointer w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition-colors"
                     >
                       My Profile
-                    </button>
-                    <button className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition-colors">
-                      Account Settings
                     </button>
                     <button
                       onClick={handleLogout}

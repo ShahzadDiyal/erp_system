@@ -42,8 +42,9 @@ export default function CreateInvoice() {
   } = useGetBranchesQuery();
 
   // Ensure arrays are always arrays
-  const roles = Array.isArray(rolesData) ? rolesData : [];
   const branches = Array.isArray(branchesData) ? branchesData : [];
+
+  const roles = Array.isArray(rolesData) ? rolesData : [];
 
   // Check if selected role requires branch selection
   useEffect(() => {
