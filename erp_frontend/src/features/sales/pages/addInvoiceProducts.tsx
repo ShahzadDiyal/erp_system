@@ -7,6 +7,8 @@ import barcode_icon from '../../../assets/icons/barcode_icon.svg'
 import search_icon from '../../../assets/icons/search_icon.svg'
 import { Link, useNavigate } from 'react-router-dom';
 import arrow_back_icon from '../../../assets/icons/arrow_back_icon.svg'
+import { useAppSelector } from '../../../app/hooks';
+import type { RootState } from '../../../app/store';
 
 interface Product {
   id: string;
@@ -29,6 +31,8 @@ interface SelectedProduct {
 }
 
 export default function AddInvoiceProducts() {
+         const { user } = useAppSelector((state: RootState) => state.auth);
+  
   const navigate = useNavigate();
   
   // Search query state
@@ -168,6 +172,19 @@ export default function AddInvoiceProducts() {
     setFilteredProducts(filtered);
   }, [searchQuery, selectedCategory, products]);
 
+
+            // Check user role
+  const isSuperAdmin = user?.role?.role_name === 'Super Admin';
+  const isCashier = user?.role?.role_name === 'Cashier';
+
+
+   const basePath = isSuperAdmin 
+    ? '/admin' 
+    : isCashier 
+        ? ''
+        : '';
+
+
   // Handle product card click - THIS IS THE KEY FUNCTION
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
@@ -183,14 +200,15 @@ export default function AddInvoiceProducts() {
   const handleMoveForward = () => {
     // Store selected products in localStorage
     localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
-    navigate('/sales/create_invoice');
+    navigate(`${basePath}/sales/create_invoice`);
   };
+
 
   return (
     <DashboardLayout>
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 mb-4">
         <div className='flex flex-row justify-between mb-8 items-center'>
-          <Link to='/sales'>
+          <Link to={`${basePath}/sales`}>
             <img src={arrow_back_icon} alt="" className='w-8 h-8' />
           </Link>
           <button 

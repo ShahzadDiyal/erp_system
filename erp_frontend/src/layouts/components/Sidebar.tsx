@@ -79,27 +79,27 @@ export default function Sidebar({ collapsed, toggleSidebar, onMenuSelect }: Side
   
   // POS Submenus
   const posSubmenus: SubMenuItem[] = [
-    hasPermission('open_pos') && { 
+    hasPermission('access_pos') && { 
       id: 'pos-terminal', 
       label: 'Open Terminal', 
       path: `${basePath}/pos/terminal` 
     },
-    hasPermission('open_pos') && { 
+    hasPermission('access_pos') && { 
       id: 'pos-open', 
       label: 'Open POS', 
       path: `${basePath}/pos` 
     },
-    hasPermission('view_orders') && { 
+    hasPermission('access_pos') && { 
       id: 'pos-orders', 
       label: 'POS Orders', 
       path: `${basePath}/pos/orders` 
     },
-    hasPermission('access_cashbox') && { 
+    hasPermission('access_pos') && { 
       id: 'pos-cashbox', 
       label: 'Cash Box', 
       path: `${basePath}/pos/cashbox` 
     },
-    hasPermission('view_shift_reports') && { 
+    hasPermission('access_pos') && { 
       id: 'pos-shift-reports', 
       label: 'Shift Reports', 
       path: `${basePath}/pos/shift_reports` 
@@ -108,20 +108,20 @@ export default function Sidebar({ collapsed, toggleSidebar, onMenuSelect }: Side
   
   // Operation Menus
   const operationMenus: MenuItem[] = [
-    hasPermission('view_inventory') && { 
+    hasPermission('view_products') && { 
       id: 'inventory', 
       label: 'Inventory', 
       icon: inventory, 
       path: `${basePath}/inventory` 
     },
-    hasAnyPermission(['view_pos', 'open_pos', 'close_pos']) && { 
+    hasAnyPermission(['access_pos', 'open_pos', 'close_pos']) && { 
       id: 'pos', 
       label: 'POS', 
       icon: pos, 
       path: `${basePath}/pos`,
       submenu: posSubmenus
     },
-    hasAnyPermission(['view_sales', 'create_invoice']) && { 
+    hasAnyPermission(['process_sale', 'create_invoice']) && { 
       id: 'sales', 
       label: 'Sales', 
       icon: sales, 
@@ -166,7 +166,7 @@ export default function Sidebar({ collapsed, toggleSidebar, onMenuSelect }: Side
   // Filter menus based on permissions
   const filteredOperationMenus = operationMenus.filter(menu => {
     if (menu.id === 'pos') return hasPermission('access_pos') || isSuperAdmin;
-    if (menu.id === 'inventory') return hasPermission('view_inventory') || isSuperAdmin;
+    if (menu.id === 'inventory') return hasPermission('view_products') || isSuperAdmin;
     if (menu.id === 'sales') return hasPermission('process_sale') || isSuperAdmin;
     if (menu.id === 'purchase') return hasPermission('view_purchases') || isSuperAdmin;
     return false;

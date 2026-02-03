@@ -6,6 +6,8 @@ import arrow_back_icon from '../../../assets/icons/arrow_back_icon.svg'
 
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useAppSelector } from '../../../app/hooks';
+import type { RootState } from '../../../app/store';
 
 type InvoiceType = 'b2c' | 'b2b' | 'quotation';
 
@@ -20,6 +22,8 @@ interface SelectedProduct {
 }
 
 export default function CreateInvoice() {
+       const { user } = useAppSelector((state: RootState) => state.auth);
+  
   const [selectedInvoiceType, setSelectedInvoiceType] = useState<InvoiceType>('b2c');
   const [invoiceNo, setInvoiceNo] = useState('INV-B2C-01452');
   const [source, setSource] = useState('');
@@ -92,12 +96,26 @@ export default function CreateInvoice() {
     console.log('Exporting PDF...');
     alert('Exporting PDF...');
   };
+  
+
+  
+          // Check user role
+  const isSuperAdmin = user?.role?.role_name === 'Super Admin';
+  const isCashier = user?.role?.role_name === 'Cashier';
+
+
+   const basePath = isSuperAdmin 
+    ? '/admin' 
+    : isCashier 
+        ? ''
+        : '';
+
 
   return (
     <DashboardLayout>
       <div className="space-y-6">
         <div className='flex flex-row justify-between mb-8 items-center'>
-          <Link to='/sales'>
+          <Link to={`${basePath}/sales`}>
             <img src={arrow_back_icon} alt="" className='w-8 h-8' />
           </Link>
         </div>
@@ -504,7 +522,7 @@ export default function CreateInvoice() {
                 <div className="">
                  <div className='flex items-center justify-between bg-white p-6'>
                    <h3 className="text-lg font-semibold text-gray-900">Products</h3>
-                  <Link to='/sales/add_product'>
+                  <Link to={`${basePath}/sales/add_product`}>
                     <button className="flex items-center gap-2 px-4 py-2 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors cursor-pointer">
                       <img src={add_icon} alt="" />
                       <span className="font-medium">Add Product</span>

@@ -157,6 +157,13 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
           )}
 
 
+ <Link to={isSuperAdmin ? "/admin/sales/create_invoice" : "/sales/create_invoice"}>
+                         <button className="hidden md:flex items-center space-x-2 px-4 py-2 text-black border-1 border-blue-600 rounded-lg cursor-pointer transition-colors">
+                            <img src={add_invoice} alt="" />
+                            <span className="text-sm font-medium">Create New Invoice</span>
+                        </button>
+                       </Link>
+
 
           {/* Shift Close Button */}
           <button className="hidden md:flex items-center space-x-2 px-4 py-2 bg-[#FF5F57] text-white rounded-lg hover:bg-[#FF4A42] transition-colors">

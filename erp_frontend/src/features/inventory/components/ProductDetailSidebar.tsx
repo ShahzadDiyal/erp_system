@@ -7,7 +7,7 @@ import InventoryMovementModal from '../components/ViewInventoryMovementModel';
 import edit_icon from '../../../assets/icons/edit_icon.svg';
 import restock_icon from '../../../assets/icons/restock_icon.svg';
 import transfer_stock_icon from '../../../assets/icons/transfer_stock.svg';
-import view_inventory from '../../../assets/icons/view_inventory.svg';
+import view_products from '../../../assets/icons/view_inventory.svg';
 import low_inventory from '../../../assets/icons/low_stock.svg';
 
 interface Product {
@@ -297,7 +297,7 @@ export default function ProductDetailsSidebar({ isOpen, product, onClose }: Prod
                                 className="flex flex-col items-center justify-center px-4 py-8 cursor-pointer rounded-lg border border-[#0088FF] hover:bg-blue-50 transition-colors"
                             >
                                 <div className="w-14 h-14 bg-gray-200 rounded-xl flex items-center justify-center mb-2">
-                                    <img src={view_inventory} alt="" />
+                                    <img src={view_products} alt="" />
                                 </div>
                                 <span className="text-md font-medium text-gray-700 text-center">View Inventory</span>
                             </button>

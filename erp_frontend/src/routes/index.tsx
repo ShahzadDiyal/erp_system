@@ -199,7 +199,7 @@ export const router = createBrowserRouter([
           {
             index: true,
             element: (
-              <PermissionRoute requiredPermissions={['view_inventory']}>
+              <PermissionRoute requiredPermissions={['view_products']}>
                 <InventoryDashboardPage />
               </PermissionRoute>
             )
@@ -207,7 +207,7 @@ export const router = createBrowserRouter([
           {
             path: 'dashboard',
             element: (
-              <PermissionRoute requiredPermissions={['view_inventory']}>
+              <PermissionRoute requiredPermissions={['view_products']}>
                 <InventoryDashboardPage />
               </PermissionRoute>
             )
@@ -215,7 +215,7 @@ export const router = createBrowserRouter([
           {
             path: 'reports',
             element: (
-              <PermissionRoute requiredPermissions={['view_inventory']}>
+              <PermissionRoute requiredPermissions={['view_products']}>
                 <InventoryReportPage />
               </PermissionRoute>
             )
