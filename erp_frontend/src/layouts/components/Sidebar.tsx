@@ -155,7 +155,7 @@ export default function Sidebar({ collapsed, toggleSidebar, onMenuSelect }: Side
       icon: crm, 
       path: `${basePath}/crm` 
     },
-    hasAnyPermission(['view_roles', 'create_employee', 'edit_employee', 'delete_employee']) && { 
+    hasAnyPermission(['view_users', 'create_user', 'edit_user', 'delete_user']) && { 
       id: 'hr', 
       label: 'HR & Users', 
       icon: hr_icon, 
@@ -176,7 +176,7 @@ export default function Sidebar({ collapsed, toggleSidebar, onMenuSelect }: Side
     if (menu.id === 'accounting') return hasPermission('view_balance_sheet') || isSuperAdmin;
     if (menu.id === 'reports') return hasPermission('view_reports') || isSuperAdmin;
     if (menu.id === 'crm') return hasPermission('view_crm') || isSuperAdmin;
-    if (menu.id === 'hr') return hasPermission('view_roles') || isSuperAdmin;
+    if (menu.id === 'hr') return hasPermission('view_users') || isSuperAdmin;
     return false;
   });
   

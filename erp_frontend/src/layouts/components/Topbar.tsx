@@ -16,57 +16,57 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
   const { user } = useAppSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  
+
   const [showBranchDropdown, setShowBranchDropdown] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-  
+
   // Check user role
   const isSuperAdmin = user?.role?.role_name === 'Super Admin';
   const isHR = user?.role?.role_name === 'HR' || user?.role?.role_name === 'HR Manager';
   // Check if user has specific permissions
   const hasCreateRolePermission = () => {
     if (!user || !user.role || !user.role.permissions) return false;
-    
+
     // Super Admin has all permissions
     if (isSuperAdmin) return true;
-    
+
     // Check for create_role permission
     const permissions = user.role.permissions;
-    return permissions.some((p: any) => 
-      p.permission_name === 'create_role' || 
-      p.name === 'create_role'
+    return permissions.some((p: any) =>
+      p.permission_name === 'create_user' ||
+      p.name === 'create_user'
     );
   };
-  
+
   const hasCreateUserPermission = () => {
     if (!user || !user.role || !user.role.permissions) return false;
-    
+
     // Super Admin has all permissions
     if (isSuperAdmin) return true;
-    
+
     // Check for create_user permission
     const permissions = user.role.permissions;
-    return permissions.some((p: any) => 
-      p.permission_name === 'create_role' || 
-      p.name === 'create_role'
+    return permissions.some((p: any) =>
+      p.permission_name === 'create_user' ||
+      p.name === 'create_user'
     );
   };
-  
+
   // Determine if user can see admin buttons
   const canSeeAdminButtons = isSuperAdmin || isHR;
   const canCreateRole = hasCreateRolePermission();
   const canCreateUser = hasCreateUserPermission();
-  
+
   // Base path for navigation links
   // For HR users, they should use regular routes (not /admin)
- const basePath = isSuperAdmin 
-    ? '/admin' 
-    : isHR 
-        ? '/hr'
-        : '';
+  const basePath = isSuperAdmin
+    ? '/admin'
+    : isHR
+      ? '/hr'
+      : '';
 
-  
+
   // Sample branches data
   const branches = [
     { id: 1, name: 'Qurain Branch' },
@@ -74,14 +74,14 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
     { id: 3, name: 'Ardiya Branch' },
     { id: 4, name: 'Warehouse - Qurain' },
   ];
-  
+
   const [selectedBranch, setSelectedBranch] = useState(branches[0]);
-  
+
   const handleLogout = () => {
     dispatch(logout());
     navigate(isSuperAdmin ? '/admin_login' : '/login');
   };
-  
+
   return (
     <header className="sticky top-0 h-18 bg-white border-b border-gray-200 z-30">
       <div className="flex items-center justify-between h-full px-4 md:px-6">
@@ -91,7 +91,7 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
           <h1 className="text-lg md:text-xl font-bold text-gray-900 hidden md:block">
             {pageTitle}
           </h1>
-          
+
           {/* Branch Dropdown */}
           <div className="relative">
             <button
@@ -101,7 +101,7 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
               <span className="text-sm font-medium text-gray-700">{selectedBranch.name}</span>
               <ChevronDown className="w-4 h-4 text-gray-500" />
             </button>
-            
+
             {showBranchDropdown && (
               <>
                 <div
@@ -120,11 +120,10 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
                           setSelectedBranch(branch);
                           setShowBranchDropdown(false);
                         }}
-                        className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${
-                          selectedBranch.id === branch.id
+                        className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${selectedBranch.id === branch.id
                             ? 'bg-blue-50 text-blue-600 font-medium'
                             : 'text-gray-700 hover:bg-gray-100'
-                        }`}
+                          }`}
                       >
                         {branch.name}
                       </button>
@@ -135,36 +134,36 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
             )}
           </div>
         </div>
-        
+
         {/* Right Section */}
         <div className="flex items-center space-x-2 md:space-x-3">
-         {/* Create Role Button */}
-{canSeeAdminButtons && canCreateRole &&  (
-  <Link to={isSuperAdmin ? "/admin/hr/create_role" : "/hr/create_role"}>
-    <button className="hidden md:flex items-center space-x-2 px-4 py-2 text-black border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors cursor-pointer">
-      <img src={add_invoice} alt="Create Role" className="w-4 h-4" />
-      <span className="text-sm font-medium">Create New Role</span>
-    </button>
-  </Link>
-)}
+          {/* Create Role Button */}
+          {canSeeAdminButtons && canCreateRole && (
+            <Link to={isSuperAdmin ? "/admin/hr/create_role" : "/hr/create_role"}>
+              <button className="hidden md:flex items-center space-x-2 px-4 py-2 text-black border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors cursor-pointer">
+                <img src={add_invoice} alt="Create Role" className="w-4 h-4" />
+                <span className="text-sm font-medium">Create New Role</span>
+              </button>
+            </Link>
+          )}
 
-{canSeeAdminButtons && canCreateUser && (
-  <Link to={isSuperAdmin ? "/admin/hr/add_staff" : "/hr/add_staff"}>
-    <button className="hidden md:flex items-center space-x-2 px-4 py-2 text-black border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors cursor-pointer">
-      <img src={add_invoice} alt="Add Staff" className="w-4 h-4" />
-      <span className="text-sm font-medium">Add Staff</span>
-    </button>
-  </Link>
-)}
+          {canSeeAdminButtons && canCreateUser && (
+            <Link to={isSuperAdmin ? "/admin/hr/add_staff" : "/hr/add_staff"}>
+              <button className="hidden md:flex items-center space-x-2 px-4 py-2 text-black border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors cursor-pointer">
+                <img src={add_invoice} alt="Add Staff" className="w-4 h-4" />
+                <span className="text-sm font-medium">Add Staff</span>
+              </button>
+            </Link>
+          )}
 
 
-     
+
           {/* Shift Close Button */}
           <button className="hidden md:flex items-center space-x-2 px-4 py-2 bg-[#FF5F57] text-white rounded-lg hover:bg-[#FF4A42] transition-colors">
             <img src={history_icon_2} alt="Shift Close" className="w-4 h-4" />
             <span className="text-sm font-medium">Shift Close 12:27</span>
           </button>
-          
+
           {/* Notifications */}
           <div className="relative">
             <button
@@ -177,7 +176,7 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
               </svg>
               <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
             </button>
-            
+
             {showNotifications && (
               <>
                 <div
@@ -207,7 +206,7 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
               </>
             )}
           </div>
-          
+
           {/* Profile Menu */}
           <div className="relative">
             <button
@@ -225,7 +224,7 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
               </div>
               <ChevronDown className="hidden md:block w-4 h-4 text-gray-500" />
             </button>
-            
+
             {showProfileMenu && (
               <>
                 <div
@@ -239,7 +238,7 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
                       <p className="text-xs text-gray-500">{user?.email}</p>
                       <p className="text-xs text-blue-600 font-medium mt-1">{user?.role?.role_name}</p>
                     </div>
-                    <button 
+                    <button
                       onClick={() => {
                         setShowProfileMenu(false);
                         navigate('/profile');
@@ -251,7 +250,7 @@ export default function Topbar({ pageTitle = "Dashboard Overview" }: TopbarProps
                     <button className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition-colors">
                       Account Settings
                     </button>
-                    <button 
+                    <button
                       onClick={handleLogout}
                       className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded transition-colors"
                     >

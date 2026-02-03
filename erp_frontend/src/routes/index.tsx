@@ -285,7 +285,7 @@ export const router = createBrowserRouter([
           {
             index: true,
             element: (
-              <PermissionRoute requiredPermissions={['view_users', 'view_roles']}>
+              <PermissionRoute requiredPermissions={['view_users', 'view_users']}>
                 <HRDashboard />
               </PermissionRoute>
             )
@@ -293,7 +293,7 @@ export const router = createBrowserRouter([
           {
             path: 'add_employee',
             element: (
-              <PermissionRoute requiredPermissions={['view_roles']}>
+              <PermissionRoute requiredPermissions={['view_users']}>
                 <AddEmployee />
               </PermissionRoute>
             )
@@ -301,7 +301,7 @@ export const router = createBrowserRouter([
           {
             path: 'mark_attendance',
             element: (
-              <PermissionRoute requiredPermissions={['view_roles']}>
+              <PermissionRoute requiredPermissions={['view_users']}>
                 <MarkAttendance />
               </PermissionRoute>
             )
@@ -309,7 +309,7 @@ export const router = createBrowserRouter([
           {
             path: 'leave_requests',
             element: (
-              <PermissionRoute requiredPermissions={['view_roles']}>
+              <PermissionRoute requiredPermissions={['view_users']}>
                 <PreviewLeaveRequests />
               </PermissionRoute>
             )
@@ -317,7 +317,7 @@ export const router = createBrowserRouter([
           {
             path: 'leave_requests/:id',
             element: (
-              <PermissionRoute requiredPermissions={['view_roles']}>
+              <PermissionRoute requiredPermissions={['view_users']}>
                 <LeaveRequestDetails />
               </PermissionRoute>
             )
@@ -325,7 +325,7 @@ export const router = createBrowserRouter([
           {
             path: 'create_role',
             element: (
-              <PermissionRoute requiredPermissions={['view_roles']}>
+              <PermissionRoute requiredPermissions={['view_users']}>
                 <CreateNewRole />
               </PermissionRoute>
             )
@@ -333,7 +333,7 @@ export const router = createBrowserRouter([
           {
             path: 'add_staff',
             element: (
-              <PermissionRoute requiredPermissions={['view_roles']}>
+              <PermissionRoute requiredPermissions={['view_users']}>
                 <AddStaff />
               </PermissionRoute>
             )
